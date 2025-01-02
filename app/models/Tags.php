@@ -21,7 +21,7 @@ class Tags{
     public static function addTags($values){
 
         $tags=Database::Add(self::$table,self::$column,$values);
-        // return $tags;
+
         if($tags){
 
             header("Location:tag.php");
