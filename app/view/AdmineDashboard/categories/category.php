@@ -8,16 +8,17 @@ $categories = CategoriesController::show();
 // $totalTags = TagsController::totalTags();
 // TagsController::create();
 
-if (isset($_POST['addCategory']) && $_SERVER["REQUEST_METHOD"] == "POST"){
-    $category = $_POST['categorie_name'];
-    $result=CategoriesController::create($caregory);
+if (isset($_POST['addCategory']) && isset($_POST['categorie_name']) && $_SERVER["REQUEST_METHOD"] == "POST") {
+    $value = $_POST['categorie_name'];
+    $result = CategoriesController::create($value);
 }
 
+
 // // Check if the delete action is triggered
-// if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
-//     $id = $_GET['id'];
-//     TagsController::delete($id); // Call delete method in controller
-// }
+if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
+    $id = $_GET['id'];
+    CategoriesController::delete($id); 
+}
 ?>
 
 <!DOCTYPE html>
@@ -104,12 +105,12 @@ if (isset($_POST['addCategory']) && $_SERVER["REQUEST_METHOD"] == "POST"){
                     <form method="POST" class="space-y-4">
                         <div>
                             <label for="tag_name" class="block text-sm font-medium text-gray-700">Category Name</label>
-                            <input type="text" name="name_tag" id="categorie_name" placeholder="Enter tag name"
+                            <input type="text" name="categorie_name" id="categorie_name" placeholder="Enter tag name"
                                 class="mt-2 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                                 required>
                         </div>
                         <button type="submit" name="addCategory"
-                            class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition duration-200">Add Tag</button>
+                            class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition duration-200">Add Category</button>
                     </form>
                 </div>
 

@@ -16,8 +16,8 @@ class CategoriesController{
     // }
 
 
-    public static function create(){
-        
+    public static function create($value){
+        $category = ModelCategories::create($value);
     }
 
 
@@ -34,8 +34,14 @@ class CategoriesController{
         
     }
 
-    public function destroy($id){
-        
+    public static function delete($id){
+        $category = ModelCategories::delete($id);
+        if ($category) {
+            header("Location: category.php");
+            exit; 
+        } else {
+            echo 'Failed to delete tag.';
+        }
     }
 
     
