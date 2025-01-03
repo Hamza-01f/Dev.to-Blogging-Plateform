@@ -10,7 +10,9 @@ class Tags {
 
     public static function showTags() {
         Database::getInstance();
-        return Database::getData(self::$table);
+        $stmt = Database::getConnection()->prepare("SELECT * FROM ".self::$table."");
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public static function addTags($values) {
