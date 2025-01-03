@@ -43,7 +43,7 @@ class TagsController{
     }
 
     public static function edit($id) {
-        return Tags::findTagById($id); // Retrieve the tag data by ID
+        return Tags::findTagById($id); 
     }
 
     public static function update($id, $newTag) {

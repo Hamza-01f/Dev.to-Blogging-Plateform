@@ -48,4 +48,22 @@ class ModelCategories{
         
         return $stmt->execute();
     }
+
+    public static function findTagById($id) {
+        Database::getInstance();
+        $stmt = Database::getConnection()->prepare("SELECT * FROM " . self::$table . " WHERE id = :id");
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+
+    //Method to update the value of Tag
+    public static function updateCategory($id, $newTag){
+        Database::getInstance();
+        $stmt = Database::getConnection()->prepare("UPDATE " . self::$table . " SET categorie_name = :newTag WHERE id = :id");
+        $stmt->bindParam(':newTag', $newTag, \PDO::PARAM_STR);
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+    }
 }

@@ -10,12 +10,6 @@ use App\Models\ModelCategories;
 class CategoriesController{
 
 
-
-    // public function index(){
-    //     $tags = Tags::all();
-    // }
-
-
     public static function create($value){
         $category = ModelCategories::create($value);
     }
@@ -26,12 +20,13 @@ class CategoriesController{
         return $category;
     }
 
-    public function edit($id){
-        $tag = Tags::find($id);
+    public static function edit($id){
+        $category = ModelCategories::findTagById($id);
+        return $category;
     }
 
-    public function update($id){
-        
+    public static function update($id , $newValue){
+        $category = ModelCategories::updateCategory($id , $newValue);
     }
 
     public static function delete($id){
