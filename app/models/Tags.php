@@ -18,31 +18,37 @@ class Tags {
         $result = Database::Add(self::$table, self::$column, $values);
         
         if ($result) {
-            echo 'Tag added successfully.';
             header("Location: tag.php");
         } else {
             echo 'Failed to add tag.';
         }
     }
 
+    //Methods to delete tag
+    public static function deleteTag($id) {
+        Database::getInstance();
+        $stmt = Database::getConnection()->prepare("DELETE FROM " . self::$table . " WHERE id = :id");
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        
+        return $stmt->execute(); 
+    }
 
-    // public function deleteTag($id) {
-    //     // Add your code here
-    // }
+    // Method to find a tag by ID
+    public static function findTagById($id) {
+        Database::getInstance();
+        $stmt = Database::getConnection()->prepare("SELECT * FROM " . self::$table . " WHERE id = :id");
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
 
-    // public function getTagById() {
-    //     // Add your code here
-    // }
+    //Method to update the value of Tag
+    public static function updateTag($id, $newTag){
+        Database::getInstance();
+        $stmt = Database::getConnection()->prepare("UPDATE " . self::$table . " SET name_tag = :newTag WHERE id = :id");
+        $stmt->bindParam(':newTag', $newTag, \PDO::PARAM_STR);
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+    }
 
-    // public function update() {
-    //     // Add your code here
-    // }
-
-    // public static function countTags() {
-  
-    //     Database::getInstance();  
-
-    //     $countTags = Database::countItems(self::$table);
-    //     return $countTags;
-    // }
 }

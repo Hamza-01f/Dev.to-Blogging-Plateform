@@ -3,4 +3,3 @@ vendor
 /app/config
 .env
 .env-example
-controllers

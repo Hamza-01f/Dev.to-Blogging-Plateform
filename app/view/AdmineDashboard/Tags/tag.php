@@ -2,10 +2,23 @@
 require_once __DIR__ . '/../../../controllers/TagsController.php';
 
 use App\Controllers\TagsController;
+use App\Models\Tags;
 
 $tags = TagsController::show();
 // $totalTags = TagsController::totalTags();
 // TagsController::create();
+
+if (isset($_POST['addTag']) && $_SERVER["REQUEST_METHOD"] == "POST"){
+    $tag = $_POST['name_tag'];
+    $result=Tags::addTags($tag);
+    echo'tag will be sent ';
+}
+
+// Check if the delete action is triggered
+if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
+    $id = $_GET['id'];
+    TagsController::delete($id); // Call delete method in controller
+}
 ?>
 
 <!DOCTYPE html>
@@ -123,9 +136,9 @@ $tags = TagsController::show();
                                     <td class="px-4 py-2 text-center"><?= $tag['name_tag']; ?></td>
                                     <td class="px-4 py-2 text-sm text-gray-600">
                                         <div class="flex justify-center space-x-4">
-                                            <!-- Edit icon -->
+                                                        <!-- Edit icon -->
                                             <div class="cursor-pointer hover:text-blue-500">
-                                                <a href="Tags/update.php?User_id=<?= $tag['id']; ?>">
+                                                <a href="update.php?id=<?= $tag['id']; ?>">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                         stroke="currentColor" class="w-5 h-5">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -134,20 +147,19 @@ $tags = TagsController::show();
                                                 </a>
                                             </div>
                                             <!-- Delete icon -->
-                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer cursor-pointer">
-                                                    <a href="tag.php?id=<?= $tag['id']; ?>&action=delete"
-                                                        onclick="return confirm('Are you sure you want to delete this tag?')">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                        </svg>
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
+                                                <a href="tag.php?id=<?= $tag['id']; ?>&action=delete" onclick="return confirm('Are you sure you want to delete this tag?')">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
                                                 </a>
-                                           </div>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
                                 <?php
-                                $count++; // Increment the counter
+                                $count++; 
                                         }
                                     } else {
                                         echo "<tr><td colspan='3' class='py-2 text-center'>No tags available</td></tr>";
