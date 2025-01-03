@@ -14,13 +14,27 @@ class Tags {
     }
 
     public static function addTags($values) {
+        // Ensure the database connection is established
         Database::getInstance();
-        $result = Database::Add(self::$table, self::$column, $values);
-        
-        if ($result) {
-            header("Location: tag.php");
+        // Check if the tag already exists
+        $stmt = Database::getConnection()->prepare("SELECT COUNT(*) FROM " . self::$table . " WHERE " . self::$column . " = :value");
+        $stmt->bindParam(':value', $values, \PDO::PARAM_STR);
+        $stmt->execute();
+        $count = $stmt->fetchColumn();
+
+        if ($count > 0) {
+            return false;
+        }
+
+        $stmt = Database::getConnection()->prepare("INSERT INTO " . self::$table . " (" . self::$column . ") VALUES (:value)");
+        $stmt->bindParam(':value', $values, \PDO::PARAM_STR);
+
+        // Execute the insertion and return true if successful
+        if ($stmt->execute()) {
+            return true;
         } else {
-            echo 'Failed to add tag.';
+            echo "Failed to add tag.";
+            return false;
         }
     }
 
@@ -50,5 +64,6 @@ class Tags {
         $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
         $stmt->execute();
     }
+
 
 }

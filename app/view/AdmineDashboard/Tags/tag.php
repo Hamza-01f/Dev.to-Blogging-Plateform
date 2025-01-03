@@ -11,7 +11,6 @@ $tags = TagsController::show();
 if (isset($_POST['addTag']) && $_SERVER["REQUEST_METHOD"] == "POST"){
     $tag = $_POST['name_tag'];
     $result=Tags::addTags($tag);
-    echo'tag will be sent ';
 }
 
 // Check if the delete action is triggered

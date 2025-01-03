@@ -4,27 +4,26 @@
 namespace App\Controllers;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
- 
+
+use App\Models\ModelCategories;
 
 class CategoriesController{
 
 
 
-    public function index(){
-        $tags = Tags::all();
-    }
+    // public function index(){
+    //     $tags = Tags::all();
+    // }
 
 
-    public function create(){
+    public static function create(){
         
     }
 
-    public function store(){
-        
-    }
 
-    public function show($id){
-        $tag = Tags::find($id);
+    public static function show(){
+        $category = ModelCategories::display();
+        return $category;
     }
 
     public function edit($id){
