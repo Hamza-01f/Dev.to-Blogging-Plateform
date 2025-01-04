@@ -16,7 +16,7 @@ if (isset($_POST['addTag']) && $_SERVER["REQUEST_METHOD"] == "POST"){
 // Check if the delete action is triggered
 if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
     $id = $_GET['id'];
-    TagsController::delete($id); // Call delete method in controller
+    TagsController::delete($id); 
 }
 ?>
 
