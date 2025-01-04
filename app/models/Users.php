@@ -18,15 +18,14 @@ public static function showUsers(){
     return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
 
-public static function countUsers(){
+// public static function countUsers(){
 
-    $query = database::countItems(self::$table);
-    return $query;
-}
+//     $query = database::countItems(self::$table);
+//     return $query;
+// }
 
 
 public function login(){
-
 
 
 }

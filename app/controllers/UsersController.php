@@ -13,10 +13,10 @@ class UsersController{
     }
 
 
-    public static function CountUsers(){
-        $Users = Users::countUsers();
-        return $Users;
-    }
+    // public static function CountUsers(){
+    //     $Users = Users::countUsers();
+    //     return $Users;
+    // }
 
 
     
