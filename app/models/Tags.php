@@ -16,9 +16,8 @@ class Tags {
     }
 
     public static function addTags($values) {
-        // Ensure the database connection is established
+        
         Database::getInstance();
-        // Check if the tag already exists
         $stmt = Database::getConnection()->prepare("SELECT COUNT(*) FROM " . self::$table . " WHERE " . self::$column . " = :value");
         $stmt->bindParam(':value', $values, \PDO::PARAM_STR);
         $stmt->execute();

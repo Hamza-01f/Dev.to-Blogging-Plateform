@@ -1,14 +1,26 @@
 <?php
 
+
+
+require_once __DIR__ . '/../../../controllers/CategoriesController.php';
+require_once __DIR__ . '/../../../controllers/UsersController.php';
+require_once __DIR__ . '/../../../controllers/TagsController.php';
+
 use App\Controllers\ArticleController;
+use App\Controllers\TagsController;
+use App\Controllers\CategoriesController;
+use App\Controllers\UsersController;
 
-require_once __DIR__ . '/../../../controllers/ArticlesController.php';
 
-$Articles = ArticleController::getData();
+$tags = TagsController::show();
+$categories = CategoriesController::show();
+$authors = UsersController::show();
+// $Articles = ArticleController::getData();
 // if(isset($_POST['tags']) && $_SERVER["REQUEST_METHOD"] == 'POST'){
 //   $tags = $_POST['tags'];
 //   print_r($tags);
 // }
+ //print_r($authors);
 
 ?>
 
@@ -90,7 +102,7 @@ $Articles = ArticleController::getData();
 
                 <!-- Article Form -->
                 <div class="bg-white shadow-lg rounded-lg p-6 mt-6 overflow-auto max-h-[calc(100vh-200px)]">
-                    <form method="POST" class="space-y-6">
+                    <form method="POST" action="/router.php?action=addArticle" class="space-y-6">
                         <div>
                             <label for="title" class="block text-sm font-medium text-gray-700">Article Title</label>
                             <input type="text" name="title" id="title" placeholder="Enter article title"
@@ -134,26 +146,25 @@ $Articles = ArticleController::getData();
                         <div>
                             <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
                             <select name="category" id="category" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <option value="1">Technology</option>
-                                <option value="2">Health</option>
-                                <option value="3">Lifestyle</option>
+                                <? foreach($categories as $category): ?>
+                                <option value="<? echo $category['id']?>"><? echo $category['categorie_name'];?></option>
+                                <?php endforeach;?>
                             </select>
                         </div>
                         <div>
                             <label for="author" class="block text-sm font-medium text-gray-700">Author</label>
                             <select name="author" id="author" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <option value="1">Admin</option>
-                                <option value="2">John Doe</option>
+                                <? foreach($authors as $author):?>
+                                <option value="<? echo $author['id']?>"><? echo $author['username'];?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div>
                             <label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>
                             <select id="tags" name="tags[]" multiple class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <!-- Dynamically populate this list from the database -->
-                                <option value="1">Technology</option>
-                                <option value="2">Health</option>
-                                <option value="3">Lifestyle</option>
-                                <option value="4">Business</option>
+                                 <?php foreach($tags as $tag): ?>
+                                 <option value="<?php echo $tag['id']?>"><?php echo $tag['name_tag'];?></option>
+                                 <?php endforeach; ?>
                             </select>
                         </div>
                         <button type="submit" name="addArticle"
@@ -169,7 +180,7 @@ $Articles = ArticleController::getData();
     
     <script>
     new TomSelect("#tags", {
-        maxItems: 5,  
+        maxItems: 10,  
         create: false,  
         placeholder: 'Select tags...',  
     });

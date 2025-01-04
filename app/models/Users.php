@@ -12,8 +12,10 @@ class Users{
 
 
 public static function showUsers(){
-    $query = database::getData(self::$table);
-    return $query;
+    Database::getInstance();
+    $stmt = Database::getConnection()->prepare("SELECT * FROM ".self::$table."");
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
 
 public static function countUsers(){
