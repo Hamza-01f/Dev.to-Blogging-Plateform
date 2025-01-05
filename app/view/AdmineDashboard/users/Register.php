@@ -28,13 +28,14 @@
       <h2 class="text-3xl font-bold text-center bg-gradient-to-r from-pink-500 via-orange-400 to-red-500 bg-clip-text text-transparent mb-8">Join Our Library And Enjoy Reading Articles</h2>
       
       <!-- Form -->
-      <form class="space-y-6">
+      <form method="POST" action="/router.php?action=addUser" class="space-y-6">
         <!-- Username -->
         <div>
           <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
           <input 
             type="text"
             id="username"
+            name="username"
             class="mt-1 block w-full px-4 py-3 bg-white/50 border border-gray-300 rounded-lg text-sm
             focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/50"
             required
@@ -47,6 +48,7 @@
           <input 
             type="email"
             id="email"
+            name="email"
             class="mt-1 block w-full px-4 py-3 bg-white/50 border border-gray-300 rounded-lg text-sm
             focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/50"
             required
@@ -59,6 +61,7 @@
           <input 
             type="password"
             id="password"
+            name="password"
             class="mt-1 block w-full px-4 py-3 bg-white/50 border border-gray-300 rounded-lg text-sm
             focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/50"
             required
@@ -70,6 +73,7 @@
           <label for="bio" class="block text-sm font-medium text-gray-700">Bio</label>
           <textarea
             id="bio"
+            name="bio"
             rows="3"
             class="mt-1 block w-full px-4 py-3 bg-white/50 border border-gray-300 rounded-lg text-sm
             focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/50"
@@ -86,6 +90,7 @@
             <input
               type="url"
               id="profile-picture"
+              name="photo"
               placeholder="Enter Image URL or CDN"
               class="ml-4 text-sm text-gray-500 border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-500"
               oninput="previewImage(this)"
@@ -94,11 +99,11 @@
         </div>
 
         <!-- Hidden Role Input -->
-        <input type="hidden" value="user" />
+        <input type="hidden" value="user" name="role" />
 
         <!-- Submit Button -->
         <button 
-          type="submit"
+          type="submit" name="Register"
           class="w-full py-3 px-4 rounded-lg text-sm font-semibold text-white 
           bg-gradient-to-r from-pink-500 via-orange-400 to-red-500 
           hover:from-pink-600 hover:via-orange-500 hover:to-red-600 
