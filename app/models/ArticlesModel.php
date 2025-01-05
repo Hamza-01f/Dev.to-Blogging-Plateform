@@ -89,5 +89,35 @@ class ArticlesModel{
 
         return $stmt->execute();
     }
+
+    public static function getSpecificData($id){
+        Database::getInstance();
+    
+        // Prepare the SQL query
+        $stmt = Database::getConnection()->prepare("
+        SELECT
+            articles.id, 
+            articles.title,
+            articles.slug,
+            articles.content,
+            articles.excerpt,
+            articles.featured_image,
+            articles.status,
+            articles.meta_description
+        FROM articles 
+        WHERE articles.id = :id
+         ");
+
+        $stmt->execute(['id' => $id]);
+
+        $articles = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    
+        return $articles;
+    }
+    
+
+    public static function update(){
+       echo 'hello';
+    }
     
 }

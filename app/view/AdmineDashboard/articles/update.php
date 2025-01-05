@@ -1,3 +1,37 @@
+<?php
+
+require_once __DIR__ . '/../../../controllers/ArticlesController.php';
+require_once __DIR__ . '/../../../controllers/TagsController.php';
+require_once __DIR__ . '/../../../controllers/CategoriesController.php';
+require_once __DIR__ . '/../../../controllers/UsersController.php';
+
+use App\Controllers\ArticleController;
+use App\Controllers\CategoriesController;
+use App\Controllers\TagsController;
+use App\Controllers\UsersController;
+
+$id = '';
+
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $article = ArticleController::getSpecificData($id); 
+    $categories = CategoriesController::show();
+    $tags = TagsController::show();
+    $rows = UsersController::show();
+} else {
+    header("Location: ManageArticles.php");
+    exit();
+}
+
+
+if (isset($_POST['updateArticle'])  && $_SERVER["REQUEST_METHOD"] == "POST") {
+    $newCategory = $_POST['name_Category'];
+    ArticleController::update($id, $newCategory); 
+    header("Location: category.php");
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,82 +92,103 @@
 
                 <!-- Article Edit Form -->
                 <div class="bg-white shadow-lg rounded-lg p-6 mt-6 overflow-auto max-h-[calc(100vh-200px)]">
-                    <form method="POST" action="/router.php?action=updateArticle&id=<?php echo $article['id']; ?>" class="space-y-6">
+                <form method="POST" class="space-y-6">
+                        <!-- Article Title -->
                         <div>
                             <label for="title" class="block text-sm font-medium text-gray-700">Article Title</label>
-                            <input type="text" name="title" id="title" value="<?php echo $article['title']; ?>"
-                                class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                                required>
+                            <input type="text" name="title" id="title" value="<?php echo htmlspecialchars($article[0]['title'] ?? ''); ?>"
+                                class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
                         </div>
+
+                        <!-- Slug -->
                         <div>
                             <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
-                            <input type="text" name="slug" id="slug" value="<?php echo $article['slug']; ?>"
-                                class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                                required>
+                            <input type="text" name="slug" id="slug" value="<?php echo htmlspecialchars($article[0]['slug'] ?? ''); ?>"
+                                class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
                         </div>
+
+                        <!-- Content -->
                         <div>
                             <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
                             <textarea name="content" id="content" rows="4"
-                                class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                                required><?php echo $article['content']; ?></textarea>
+                                class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required><?php echo htmlspecialchars($article[0]['content'] ?? ''); ?></textarea>
                         </div>
+
+                        <!-- Excerpt -->
                         <div>
                             <label for="excerpt" class="block text-sm font-medium text-gray-700">Excerpt</label>
-                            <input type="text" name="excerpt" id="excerpt" value="<?php echo $article['excerpt']; ?>"
+                            <input type="text" name="excerpt" id="excerpt" value="<?php echo htmlspecialchars($article[0]['excerpt'] ?? ''); ?>"
                                 class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
+
+                        <!-- Meta Description -->
                         <div>
                             <label for="meta_description" class="block text-sm font-medium text-gray-700">Meta Description</label>
-                            <input type="text" name="meta_description" id="meta_description" value="<?php echo $article['meta_description']; ?>"
+                            <input type="text" name="meta_description" id="meta_description" value="<?php echo htmlspecialchars($article[0]['meta_description'] ?? ''); ?>"
                                 class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
+
+                        <!-- Featured Image URL -->
                         <div>
                             <label for="featured_image" class="block text-sm font-medium text-gray-700">Featured Image URL</label>
-                            <input type="text" name="featured_image" id="featured_image" value="<?php echo $article['featured_image']; ?>"
+                            <input type="text" name="featured_image" id="featured_image" value="<?php echo htmlspecialchars($article[0]['featured_image'] ?? ''); ?>"
                                 class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
+
+                        <!-- Status -->
                         <div>
                             <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
                             <select name="status" id="status" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <option value="draft" <?php echo $article['status'] == 'draft' ? 'selected' : ''; ?>>Draft</option>
-                                <option value="published" <?php echo $article['status'] == 'published' ? 'selected' : ''; ?>>Published</option>
+                                <option value="draft" <?php echo isset($article[0]['status']) && $article[0]['status'] == 'draft' ? 'selected' : ''; ?>>Draft</option>
+                                <option value="published" <?php echo isset($article[0]['status']) && $article[0]['status'] == 'published' ? 'selected' : ''; ?>>Published</option>
                             </select>
                         </div>
+
+                        <!-- Category -->
                         <div>
                             <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
                             <select name="category" id="category" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <?php foreach($categories as $category): ?>
-                                <option value="<?php echo $category['id']?>" <?php echo $article['category_id'] == $category['id'] ? 'selected' : ''; ?>>
-                                    <?php echo $category['categorie_name']; ?>
-                                </option>
+                                <?php foreach ($categories as $category): ?>
+                                    <option value="<?php echo $category['id'] ?>" <?php echo isset($article[0]['category_id']) && $article[0]['category_id'] == $category['id'] ? 'selected' : ''; ?>>
+                                        <?php echo htmlspecialchars($category['categorie_name']); ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
+
+                        <!-- Author -->
                         <div>
                             <label for="author" class="block text-sm font-medium text-gray-700">Author</label>
                             <select name="author" id="author" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <?php foreach($authors as $author): ?>
-                                <option value="<?php echo $author['id']?>" <?php echo $article['author_id'] == $author['id'] ? 'selected' : ''; ?>>
-                                    <?php echo $author['username']; ?>
-                                </option>
+                                <?php foreach ($rows as $author): ?>
+                                    <option value="<?php echo $author['id'] ?>" <?php echo isset($article[0]['author_id']) && $article[0]['author_id'] == $author['id'] ? 'selected' : ''; ?>>
+                                        <?php echo htmlspecialchars($author['username']); ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
+
+                        <!-- Tags -->
                         <div>
                             <label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>
                             <select id="tags" name="tags[]" multiple class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <?php foreach($tags as $tag): ?>
-                                <option value="<?php echo $tag['id']?>" <?php echo in_array($tag['id'], explode(',', $article['tags'])) ? 'selected' : ''; ?>>
-                                    <?php echo $tag['name_tag']; ?>
-                                </option>
+                                <?php foreach ($tags as $tag): ?>
+                                    <option value="<?php echo $tag['id'] ?>" <?php echo isset($article[0]['tags']) && in_array($tag['id'], explode(',', $article[0]['tags'])) ? 'selected' : ''; ?>>
+                                        <?php echo htmlspecialchars($tag['name_tag']); ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
+
+                        <!-- Submit Button -->
                         <button type="submit" name="updateArticle"
                             class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition duration-200">
                             Update Article
                         </button>
                     </form>
+
+
+
                 </div>
 
             </main>

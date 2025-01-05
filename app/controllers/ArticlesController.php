@@ -49,5 +49,14 @@ public static function delete($id){
     }
 }
 
+public static function getSpecificData($id){
+    $article = ArticlesModel::getSpecificData($id);
+    return $article;
+}
+
+
+public static function update(){
+    ArticlesModel::update();
+}
 
 }
