@@ -32,7 +32,7 @@ $rows = UsersController::show();
                 <i class="fas fa-users mr-3"></i> Users
             </a>
             <a href="Articles/Article.php" class="flex items-center text-lg hover:text-pink-300 transition-colors">
-                <i class="fas fa-newspaper mr-3"></i> Articles
+                <i class="fas fa-newspaper mr-3"></i>Add Articles
             </a>
             <a href="Categories/Category.php" class="flex items-center text-lg hover:text-pink-300 transition-colors">
                 <i class="fas fa-tags mr-3"></i> Categories

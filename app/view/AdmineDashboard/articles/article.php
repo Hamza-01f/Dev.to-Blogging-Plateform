@@ -63,8 +63,8 @@ $authors = UsersController::show();
                     <a href="Categories/Category.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
                         <i class="fas fa-th h-6 w-6 mr-2"></i> Categories
                     </a>
-                    <a href="Articles/Article.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
-                        <i class="fas fa-newspaper h-6 w-6 mr-2"></i> Articles
+                    <a href="ManageArticles.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
+                        <i class="fas fa-newspaper h-6 w-6 mr-2"></i>Manage Articles
                     </a>
                     <a href="Tags/Tag.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
                         <i class="fas fa-tag h-6 w-6 mr-2"></i> Tags
