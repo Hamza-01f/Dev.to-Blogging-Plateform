@@ -10,6 +10,7 @@ use App\Controllers\CategoriesController;
 use App\Controllers\TagsController;
 use App\Controllers\UsersController;
 
+
 $id = '';
 
 if (isset($_GET['id'])) {
@@ -25,9 +26,7 @@ if (isset($_GET['id'])) {
 
 
 if (isset($_POST['updateArticle'])  && $_SERVER["REQUEST_METHOD"] == "POST") {
-    $newCategory = $_POST['name_Category'];
-    ArticleController::update($id, $newCategory); 
-    header("Location: category.php");
+    ArticleController::updateArticle($id); 
 }
 
 ?>
@@ -92,7 +91,7 @@ if (isset($_POST['updateArticle'])  && $_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <!-- Article Edit Form -->
                 <div class="bg-white shadow-lg rounded-lg p-6 mt-6 overflow-auto max-h-[calc(100vh-200px)]">
-                <form method="POST" class="space-y-6">
+                <form method="POST"  class="space-y-6">
                         <!-- Article Title -->
                         <div>
                             <label for="title" class="block text-sm font-medium text-gray-700">Article Title</label>

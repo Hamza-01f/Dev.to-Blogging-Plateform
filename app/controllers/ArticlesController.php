@@ -41,6 +41,32 @@ public static function addArticle(){
 
 }
 
+public static function updateArticle($id){
+       if(isset($_POST['updateArticle']) && $_SERVER['REQUEST_METHOD'] === "POST"){
+        $data = [
+            'title' => $_POST['title'],
+            'slug' => $_POST['slug'],
+            'content' => $_POST['content'],
+            'excerpt' => $_POST['excerpt'],
+            'meta_description' => $_POST['meta_description'],
+            'featured_image' => $_POST['featured_image'],
+            'status' => $_POST['status'],
+            'category' => $_POST['category'],
+            'author' => $_POST['author'],
+            'tags' => isset($_POST['tags']) ? $_POST['tags'] : []
+        ];
+       }
+
+       ArticlesModel::update($id, $data);
+
+       if (isset($data['tags']) && count($data['tags']) > 0) {
+        
+            ArticleTagsModel::deleteTagsForArticle($id);
+
+            ArticleTagsModel::addTagsToArticle($id, $data['tags']);
+        }
+}
+
 public static function delete($id){
     $article = ArticlesModel::delete($id);
     if($article){
@@ -55,8 +81,5 @@ public static function getSpecificData($id){
 }
 
 
-public static function update(){
-    ArticlesModel::update();
-}
 
 }

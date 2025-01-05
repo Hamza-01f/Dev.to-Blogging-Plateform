@@ -116,8 +116,37 @@ class ArticlesModel{
     }
     
 
-    public static function update(){
-       echo 'hello';
+    public static function update($id, $data){
+        Database::getInstance();
+        $conn = Database::getConnection();
+    
+        $stmt = $conn->prepare("
+            UPDATE articles 
+            SET 
+                title = :title, 
+                slug = :slug, 
+                content = :content, 
+                excerpt = :excerpt, 
+                meta_description = :meta_description, 
+                featured_image = :featured_image, 
+                status = :status, 
+                category_id = :category_id, 
+                author_id = :author_id
+            WHERE id = :id
+        ");
+    
+        $stmt->bindParam(':title', $data['title']);
+        $stmt->bindParam(':slug', $data['slug']);
+        $stmt->bindParam(':content', $data['content']);
+        $stmt->bindParam(':excerpt', $data['excerpt']);
+        $stmt->bindParam(':meta_description', $data['meta_description']);
+        $stmt->bindParam(':featured_image', $data['featured_image']);
+        $stmt->bindParam(':status', $data['status']);
+        $stmt->bindParam(':category_id', $data['category']);
+        $stmt->bindParam(':author_id', $data['author']);
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+ 
+        $stmt->execute();
     }
     
 }
