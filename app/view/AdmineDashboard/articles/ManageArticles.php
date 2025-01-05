@@ -1,3 +1,18 @@
+<?php
+
+require_once __DIR__ . '/../../../controllers/ArticlesController.php';
+
+use App\Controllers\ArticleController;
+
+$articles = ArticleController::getData();
+
+if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
+    $id = $_GET['id'];
+    ArticleController::delete($id); 
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,8 +47,8 @@
                     <a href="Categories/Category.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
                         <i class="fas fa-th h-6 w-6 mr-2"></i> Categories
                     </a>
-                    <a href="ManageArticles.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
-                        <i class="fas fa-newspaper h-6 w-6 mr-2"></i> Manage Articles
+                    <a href="article.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
+                        <i class="fas fa-newspaper h-6 w-6 mr-2"></i> Add Articles
                     </a>
                     <a href="Tags/Tag.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
                         <i class="fas fa-tag h-6 w-6 mr-2"></i> Tags
@@ -67,40 +82,39 @@
             <main class="flex-1 p-6 space-y-6 overflow-y-auto">
                 <div class="text-3xl font-bold text-gray-900 mb-6">Article Details</div>
 
+                <?php foreach ($articles as $article): ?>
                 <!-- Article Details Card -->
                 <div class="bg-blue-200 shadow-2xl rounded-lg p-6 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:bg-gray-50">
                     <div class="flex flex-col lg:flex-row gap-6">
                         <!-- Featured Image Section -->
                         <div class="w-full lg:w-1/3">
-                            <img src="https://via.placeholder.com/300" alt="Featured Image" class="rounded-lg shadow-lg w-full object-cover h-48 lg:h-64 transform transition-all duration-300 ease-in-out hover:scale-105">
+                            <img src="<?= $article['featured_image'] ?>" alt="Featured Image" class=" bg-green-200 rounded-lg shadow-lg w-full object-cover h-48 lg:h-64 transform transition-all duration-300 ease-in-out hover:scale-105">
                         </div>
 
                         <!-- Article Info Section -->
                         <div class="flex-1">
                             <h2 class="text-3xl font-bold text-gray-800 hover:text-indigo-600 transition-all duration-300">
-                                Sample Article Title
+                                <?= htmlspecialchars($article['title']) ?>
                             </h2>
                             <p class="mt-2 text-sm text-gray-600">
                                 <span class="font-medium text-indigo-500">Category:</span> 
-                                <span class="font-semibold text-indigo-600">Tech</span>
+                                <span class="font-semibold text-indigo-600"><?= htmlspecialchars($article['categorie_name']) ?></span>
                             </p>
                             <p class="mt-2 text-sm text-gray-600">
                                 <span class="font-medium text-indigo-500">Author:</span> 
-                                <span class="font-semibold text-indigo-600">John Doe</span>
+                                <span class="font-semibold text-indigo-600"><?= htmlspecialchars($article['username']) ?></span>
                             </p>
                             <p class="mt-4 text-gray-700 leading-relaxed text-lg">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vehicula tortor neque, non vehicula ligula tincidunt ut. Donec luctus urna nec justo scelerisque mollis. Aliquam erat volutpat. 
-                                Mauris eu ante a libero finibus feugiat. Cras euismod, eros sit amet fermentum venenatis, nunc lorem tincidunt nunc, eget mollis justo felis a leo. 
-                                <span class="text-gray-500 text-sm">[Content truncated]</span>
+                                <?= nl2br(htmlspecialchars($article['content'])) ?>
                             </p>
 
                             <div class="mt-4 text-sm text-gray-500 italic">
-                                <strong>Meta Description:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus viverra nulla at urna.
+                                <strong>Meta Description:</strong> <?= htmlspecialchars($article['meta_description']) ?>
                             </div>
 
                             <div class="mt-6 flex space-x-6 items-center ">
                                 <!-- Edit Icon -->
-                                <a href="update.php?id=1" class="text-blue-600 hover:text-blue-800 transition-all duration-300">
+                                <a href="update.php?id=<?= $article['article_id'] ?>" class="text-blue-600 hover:text-blue-800 transition-all duration-300">
                                     <div class="p-3 bg-blue-100 rounded-full hover:bg-blue-200 shadow-md hover:shadow-lg">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -110,7 +124,7 @@
                                 </a>
 
                                 <!-- Delete Icon -->
-                                <a href="dashboard.php?id=1&action=delete" onclick="return confirm('Are you sure you want to delete this article?')" class="text-red-600 hover:text-red-800 transition-all duration-300">
+                                <a href="ManageArticles.php?id=<?= $article['article_id'] ?>&action=delete" onclick="return confirm('Are you sure you want to delete this article?')" class="text-red-600 hover:text-red-800 transition-all duration-300">
                                     <div class="p-3 bg-red-100 rounded-full hover:bg-red-200 shadow-md hover:shadow-lg">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -121,6 +135,7 @@
                         </div>
                     </div>
                 </div>
+                <?php endforeach; ?>
 
             </main>
         </div>

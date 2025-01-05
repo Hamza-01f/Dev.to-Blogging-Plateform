@@ -12,7 +12,8 @@ use App\Models\ArticleTagsModel;
 class ArticleController{
 
 public static function getData(){
-    ArticlesModel::getData();
+    $articles = ArticlesModel::getData();
+    return $articles;
 }
 
 public static function addArticle(){
@@ -39,5 +40,14 @@ public static function addArticle(){
     }
 
 }
+
+public static function delete($id){
+    $article = ArticlesModel::delete($id);
+    if($article){
+        header('Location:/app/view/AdmineDashboard/articles/ManageArticles.php');
+        exit();
+    }
+}
+
 
 }

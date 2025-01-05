@@ -6,11 +6,46 @@ use App\Config\Database;
 
 class ArticlesModel{
     
-    private static $table = 'articles';
+    private static $article = 'articles';
+    private $users = 'users';
+    private $categories = 'categories';
+    private $tags = 'tags';
+    private $article_tags = 'article_tags';
+
     public static function getData(){
-        // $a = Database::getInstance();
-        // print_r($a);
+
+        Database::getInstance();
+
+        $stmt = Database::getConnection()->prepare("
+
+            SELECT 
+                articles.id AS article_id, 
+                articles.title,
+                articles.slug,
+                articles.content,
+                articles.excerpt,
+                articles.featured_image,
+                articles.status,
+                articles.meta_description,
+                users.username,
+                categories.categorie_name,
+                GROUP_CONCAT(tags.name_tag) AS tags
+            FROM articles 
+            JOIN users ON articles.author_id = users.id
+            JOIN categories ON articles.category_id = categories.id
+            LEFT JOIN article_tags ON articles.id = article_tags.article_id
+            LEFT JOIN tags ON article_tags.tag_id = tags.id
+            GROUP BY articles.id
+
+        ");
+    
+        $stmt->execute();
+    
+        $articles = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    
+        return $articles;
     }
+    
 
     public static function addArticle($data) {
         Database::getInstance();
@@ -47,6 +82,12 @@ class ArticlesModel{
         return $conn->lastInsertId();
     }
     
-    
+    public static function delete($id){
+        Database::getInstance();
+        $stmt = Database::getConnection()->prepare("DELETE FROM articles WHERE id = :id");
+        $stmt->bindparam(':id', $id , \PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
     
 }

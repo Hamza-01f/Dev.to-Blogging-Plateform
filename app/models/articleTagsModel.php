@@ -19,7 +19,7 @@ class ArticleTagsModel{
             $stmt->execute();
         }
 
-        header('Location:/app/view/AdmineDashboard/articles/article.php');
+        header('Location:/app/view/AdmineDashboard/articles/ManageArticles.php');
         exit();
     }
 }
