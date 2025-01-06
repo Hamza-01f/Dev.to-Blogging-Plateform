@@ -18,7 +18,7 @@ public static function getData(){
 
 public static function addArticle(){
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addArticle'])) {
-        // Collect form data
+       
         $data = [
             'title' => $_POST['title'],
             'slug' => $_POST['slug'],
@@ -26,7 +26,7 @@ public static function addArticle(){
             'excerpt' => $_POST['excerpt'],
             'meta_description' => $_POST['meta_description'],
             'featured_image' => $_POST['featured_image'],
-            'status' => $_POST['status'],
+            'status' => 'draft',
             'category' => $_POST['category'],
             'author' => $_POST['author'],
             'tags' => isset($_POST['tags']) ? $_POST['tags'] : []

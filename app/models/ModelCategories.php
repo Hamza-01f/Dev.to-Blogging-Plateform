@@ -17,9 +17,9 @@ class ModelCategories{
     }
 
     public static function create($values) {
-        // Ensure the database connection is established
+       
         Database::getInstance();
-        // Check if the tag already exists
+
         $stmt = Database::getConnection()->prepare("SELECT COUNT(*) FROM " . self::$table . " WHERE " . self::$column . " = :value");
         $stmt->bindParam(':value', $values, \PDO::PARAM_STR);
         $stmt->execute();
@@ -32,7 +32,6 @@ class ModelCategories{
         $stmt = Database::getConnection()->prepare("INSERT INTO " . self::$table . " (" . self::$column . ") VALUES (:value)");
         $stmt->bindParam(':value', $values, \PDO::PARAM_STR);
 
-        // Execute the insertion and return true if successful
         if ($stmt->execute()) {
             return true;
         } else {

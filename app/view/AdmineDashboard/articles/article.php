@@ -13,12 +13,6 @@ use App\Controllers\UsersController;
 $tags = TagsController::show();
 $categories = CategoriesController::show();
 $authors = UsersController::show();
-// $Articles = ArticleController::getData();
-// if(isset($_POST['tags']) && $_SERVER["REQUEST_METHOD"] == 'POST'){
-//   $tags = $_POST['tags'];
-//   print_r($tags);
-// }
- //print_r($authors);
 
 ?>
 
@@ -134,13 +128,13 @@ $authors = UsersController::show();
                             <input type="text" name="featured_image" id="featured_image" placeholder="Enter featured image URL"
                                 class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
-                        <div>
+                        <!-- <div>
                             <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
                             <select name="status" id="status" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                 <option value="draft">Draft</option>
                                 <option value="published">Published</option>
                             </select>
-                        </div>
+                        </div> -->
                         <div>
                             <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
                             <select name="category" id="category" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
