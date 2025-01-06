@@ -1,7 +1,5 @@
 <?php
 
-
-
 require_once __DIR__ . '/../../../controllers/CategoriesController.php';
 require_once __DIR__ . '/../../../controllers/UsersController.php';
 require_once __DIR__ . '/../../../controllers/TagsController.php';

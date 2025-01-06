@@ -1,3 +1,6 @@
+<?php
+session_start(); 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,8 +22,15 @@
                 DivoBlog
             </div>
             <div class="flex space-x-4">
-                <a href="/app/view/AdmineDashboard/users/Register.php" class="text-white py-2 px-4 bg-green-500 hover:bg-green-600 rounded-lg shadow-md transition duration-300">Register</a>
-                <a href="/app/view/AdmineDashboard/users/LogIn.php" class="text-white py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-lg shadow-md transition duration-300">Log In</a>
+                <?php if (isset($_SESSION['user'])): ?>
+                    <!-- Display Log Out and Profile buttons if user is logged in -->
+                    <a href="/app/view/userlogin.php" class="text-white py-2 px-4 bg-yellow-500 hover:bg-yellow-600 rounded-lg shadow-md transition duration-300">Profile</a>
+                    <a href="/app/view/logout.php" class="text-white py-2 px-4 bg-red-500 hover:bg-red-600 rounded-lg shadow-md transition duration-300">Log Out</a>
+                <?php else: ?>
+                    <!-- Display Register and Log In buttons if user is not logged in -->
+                    <a href="/app/view/AdmineDashboard/users/Register.php" class="text-white py-2 px-4 bg-green-500 hover:bg-green-600 rounded-lg shadow-md transition duration-300">Register</a>
+                    <a href="/app/view/AdmineDashboard/users/LogIn.php" class="text-white py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-lg shadow-md transition duration-300">Log In</a>
+                <?php endif; ?>
             </div>
         </div>
     </header>
@@ -85,8 +95,10 @@
             </p>
         </div>
     </footer>
-    
+
 <script>
+
+// Add your JavaScript code here
 
 </script>
 

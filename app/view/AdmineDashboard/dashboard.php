@@ -99,23 +99,11 @@ $rows = UsersController::show();
                             <td class="py-3 px-4"><?= $row['role']; ?></td>
                             <td class="px-4 py-2 text-sm text-gray-600">
                                 <div class="flex justify-center space-x-4">
-                                                <!-- Edit icon -->
-                                    <div class="cursor-pointer hover:text-blue-500">
-                                        <a href="update.php?id=<?= $row['id']; ?>">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke="currentColor" class="w-5 h-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                            </svg>
-                                        </a>
-                                    </div>
                                     <!-- Delete icon -->
                                     <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
                                         <a href="dashboard.php?id=<?= $tag['id']; ?>&action=delete" onclick="return confirm('Are you sure you want to delete this tag?')">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"/>
+                                        </svg>
                                         </a>
                                     </div>
                                 </div>

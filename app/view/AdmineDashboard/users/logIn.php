@@ -1,3 +1,27 @@
+<?php
+
+require_once __DIR__ . '/../../../controllers/authcontroller.php';
+
+use App\controllers\auth;
+
+
+if(isset($_POST["submit"]) &&  $_SERVER['REQUEST_METHOD'] == "POST")
+{
+
+    if(empty($_POST["username"]) && empty($_POST["password"]))
+    {
+        echo "email or password is empty";
+    }
+    else{
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+        auth::logIn($username,$password);
+    }
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,16 +58,17 @@
       <h2 class="text-3xl font-bold text-center bg-gradient-to-r from-red-500 via-purple-500 to-blue-600 bg-clip-text text-transparent mb-8">Welcome Back!</h2>
       
       <!-- Form -->
-      <form class="space-y-6">
+      <form class="space-y-6" method = "POST">
         <!-- Username -->
         <div>
           <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
           <input 
             type="text"
             id="username"
+            name = "username"
             class="mt-1 block w-full px-4 py-3 bg-white/50 border border-gray-300 rounded-lg text-sm
             focus:outline-none focus:border-rainbow-gradient focus:ring-2 focus:ring-purple-500/50"
-            required
+  
           />
         </div>
 
@@ -53,15 +78,16 @@
           <input 
             type="password"
             id="password"
+            name = "password"
             class="mt-1 block w-full px-4 py-3 bg-white/50 border border-gray-300 rounded-lg text-sm
             focus:outline-none focus:border-rainbow-gradient focus:ring-2 focus:ring-purple-500/50"
-            required
+     
           />
         </div>
 
         <!-- Submit Button -->
         <button 
-          type="submit"
+          type="submit"  name = "submit"
           class="w-full py-3 px-4 rounded-lg text-sm font-semibold text-white 
           bg-gradient-to-r from-red-500 via-purple-500 to-blue-600 
           hover:from-red-600 hover:via-purple-600 hover:to-blue-700 
