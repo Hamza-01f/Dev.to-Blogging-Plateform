@@ -12,11 +12,15 @@ class auth {
     $user = authModel::finduser($username,$password);
 
 
-   if ($user[0]['role'] == 'user') { 
+   if ($user[0]['role'] == 'user') {
+
+      session_start();
+      $_SESSION['user'] = $user[0];  
+
       header('Location: /app/view/AdmineDashboard/users/userpage.php');
       exit();
    }else if($user[0]['role'] == 'admin'){
-      header('Location: /app/view/AdmineDashboard/dashboard.php');
+      header('Location: /app/view/AdmineDashboard/AdmineDashboard.php');
       exit();          
    }else if($user[0]['role'] == 'author'){
       header('Location: /app/view/AdmineDashboard/articles/ManageArticles.php');
