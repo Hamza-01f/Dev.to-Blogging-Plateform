@@ -1,3 +1,25 @@
+<?php
+session_start(); 
+
+include('/var/www/html/app/controllers/authcontroller.php');
+
+use App\controllers\auth;
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $bio = $_POST['bio'];
+    $profile_picture = $_POST['profile_picture'];
+
+    $user_id = $_SESSION['user']['id']; 
+    auth::updateProfile($user_id, $username, $email, $bio, $profile_picture);
+}
+
+$user_id = $_SESSION['user']['id']; 
+$user = auth::display($user_id);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -119,18 +141,18 @@
 <body class="bg-gray-50">
 
     <!-- Profile Section with Background -->
-    <div class=" flex items-center justify-center min-h-screen bg-profile-bg py-16 px-4">
+    <div class="flex items-center justify-center min-h-screen bg-profile-bg py-16 px-4">
         <div class="profile-card bg-white rounded-2xl overflow-hidden">
             <!-- Profile Header with Picture -->
             <div class="relative">
-                <img class="w-full h-40 object-cover" src="https://source.unsplash.com/1600x400/?nature" alt="Background Image">
+                <img class="w-full h-40 object-cover" >
                 <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 p-6">
                     <div class="flex justify-center">
-                        <img class="profile-image w-32 h-32 object-cover" src="https://cdn.sofifa.net/players/158/023/25_120.png" alt="Profile Picture">
+                        <img class="profile-image w-32 h-32 object-cover" src="<?= $user[0]['profile_picture'] ?: 'https://cdn.sofifa.net/players/158/023/25_120.png'; ?>" alt="Profile Picture">
                     </div>
                     <div class="text-center mt-4">
-                        <h2 class="text-white text-3xl font-semibold">Walid</h2>
-                        <p class="text-white text-lg">hamzaprograme@gmail.co</p>
+                        <h2 class="text-white text-3xl font-semibold"><?= $user[0]['username']; ?></h2>
+                        <p class="text-white text-lg"><?= $user[0]['email']; ?></p>
                     </div>
                 </div>
             </div>
@@ -140,15 +162,11 @@
                 <div class="space-y-4">
                     <div class="flex justify-between items-center">
                         <p class="profile-info-title">Bio</p>
-                        <p class="profile-info-text">I am new user here bro</p>
+                        <p class="profile-info-text"><?= $user[0]['bio'] ?: 'No bio available.'; ?></p>
                     </div>
                     <div class="flex justify-between items-center">
                         <p class="profile-info-title">Role</p>
-                        <p class="profile-info-text">User</p>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <p class="profile-info-title">Joined</p>
-                        <p class="profile-info-text">January 4, 2025</p>
+                        <p class="profile-info-text"><?= $user[0]['role'] ?: 'User'; ?></p>
                     </div>
                 </div>
 
@@ -166,11 +184,11 @@
             <div class="modal-header">
                 <h2>Edit Profile</h2>
             </div>
-            <form action="#" method="POST">
-                <input type="text" class="modal-input" name="username" placeholder="Username" value="Walid" required>
-                <input type="email" class="modal-input" name="email" placeholder="Email" value="hamzaprograme@gmail.co" required>
-                <textarea class="modal-input" name="bio" placeholder="Bio" rows="4">I am new user here bro</textarea>
-                <input type="url" class="modal-input" name="profile_picture" accept="image/*">
+            <form action="profile.php" method="POST">
+                <input type="text" class="modal-input" name="username" placeholder="Username" value="<?= $user[0]['username']; ?>" required>
+                <input type="email" class="modal-input" name="email" placeholder="Email" value="<?= $user[0]['email']; ?>" required>
+                <textarea class="modal-input" name="bio" placeholder="Bio" rows="4"><?= $user[0]['bio']; ?></textarea>
+                <input type="url" class="modal-input" name="profile_picture" accept="image/*" value="<?= $user[0]['profile_picture']; ?>">
                 <button type="submit" class="modal-btn">Save Changes</button>
             </form>
             <button class="modal-btn mt-3" onclick="closeModal()">Cancel</button>
@@ -178,12 +196,12 @@
     </div>
 
     <script>
-        // Function to open the modal
+       
         function openModal() {
             document.getElementById('editModal').style.display = 'flex';
         }
 
-        // Function to close the modal
+       
         function closeModal() {
             document.getElementById('editModal').style.display = 'none';
         }
