@@ -26,7 +26,7 @@ session_start();
                 <?php if (isset($_SESSION['user'])): ?>
                     <!-- Display Log Out and Profile buttons if user is logged in -->
                     <span class="text-white font-semibold">Hello, <?= $_SESSION['user']['username'] ?>!</span>
-                    <a href="/app/view/userlogin.php" class="text-white py-2 px-4 bg-yellow-500 hover:bg-yellow-600 rounded-lg shadow-md transition duration-300">Profile</a>
+                    <a href="/app/view/AdmineDashboard/users/Profile.php" class="text-white py-2 px-4 bg-yellow-500 hover:bg-yellow-600 rounded-lg shadow-md transition duration-300">Profile</a>
                     <a href="logout.php" class="text-white py-2 px-4 bg-red-500 hover:bg-red-600 rounded-lg shadow-md transition duration-300">Log Out</a>
                 <?php else: ?>
                     <!-- Display Register and Log In buttons if user is not logged in -->

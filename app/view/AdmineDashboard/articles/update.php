@@ -113,20 +113,6 @@ if (isset($_POST['updateArticle'])  && $_SERVER["REQUEST_METHOD"] == "POST") {
                                 class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required><?php echo htmlspecialchars($article[0]['content'] ?? ''); ?></textarea>
                         </div>
 
-                        <!-- Excerpt -->
-                        <div>
-                            <label for="excerpt" class="block text-sm font-medium text-gray-700">Excerpt</label>
-                            <input type="text" name="excerpt" id="excerpt" value="<?php echo htmlspecialchars($article[0]['excerpt'] ?? ''); ?>"
-                                class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                        </div>
-
-                        <!-- Meta Description -->
-                        <div>
-                            <label for="meta_description" class="block text-sm font-medium text-gray-700">Meta Description</label>
-                            <input type="text" name="meta_description" id="meta_description" value="<?php echo htmlspecialchars($article[0]['meta_description'] ?? ''); ?>"
-                                class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                        </div>
-
                         <!-- Featured Image URL -->
                         <div>
                             <label for="featured_image" class="block text-sm font-medium text-gray-700">Featured Image URL</label>

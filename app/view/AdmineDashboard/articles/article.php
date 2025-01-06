@@ -113,16 +113,16 @@ $authors = UsersController::show();
                                 class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                                 required></textarea>
                         </div>
-                        <div>
+                        <!-- <div>
                             <label for="excerpt" class="block text-sm font-medium text-gray-700">Excerpt</label>
                             <input type="text" name="excerpt" id="excerpt" placeholder="Enter excerpt"
                                 class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                        </div>
-                        <div>
+                        </div> -->
+                        <!-- <div>
                             <label for="meta_description" class="block text-sm font-medium text-gray-700">Meta Description</label>
                             <input type="text" name="meta_description" id="meta_description" placeholder="Enter meta description"
                                 class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                        </div>
+                        </div> -->
                         <div>
                             <label for="featured_image" class="block text-sm font-medium text-gray-700">Featured Image URL</label>
                             <input type="text" name="featured_image" id="featured_image" placeholder="Enter featured image URL"

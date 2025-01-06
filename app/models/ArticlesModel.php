@@ -22,11 +22,9 @@ class ArticlesModel{
                 articles.id AS article_id, 
                 articles.title,
                 articles.slug,
-                articles.content,
-                articles.excerpt,
+                articles.content,    
                 articles.featured_image,
                 articles.status,
-                articles.meta_description,
                 users.username,
                 categories.categorie_name,
                 GROUP_CONCAT(tags.name_tag) AS tags
@@ -61,15 +59,13 @@ class ArticlesModel{
             throw new \Exception("The slug '{$data['slug']}' already exists. Please choose a different slug.");
         }
     
-        $stmt = $conn->prepare("INSERT INTO articles (title, slug, content, excerpt, meta_description, featured_image, status, category_id, author_id)
-                                VALUES(:title, :slug, :content, :excerpt, :meta_description, :featured_image, :status, :category_id, :author_id)");
+        $stmt = $conn->prepare("INSERT INTO articles (title, slug, content,  featured_image, status, category_id, author_id)
+                                VALUES(:title, :slug, :content,  :featured_image, :status, :category_id, :author_id)");
     
         // Bind the data to the query
         $stmt->bindParam(':title', $data['title']);
         $stmt->bindParam(':slug', $data['slug']);
         $stmt->bindParam(':content', $data['content']);
-        $stmt->bindParam(':excerpt', $data['excerpt']);
-        $stmt->bindParam(':meta_description', $data['meta_description']);
         $stmt->bindParam(':featured_image', $data['featured_image']);
         $stmt->bindParam(':status', $data['status']);
         $stmt->bindParam(':category_id', $data['category']);
@@ -100,10 +96,10 @@ class ArticlesModel{
             articles.title,
             articles.slug,
             articles.content,
-            articles.excerpt,
+         
             articles.featured_image,
             articles.status,
-            articles.meta_description
+         
         FROM articles 
         WHERE articles.id = :id
          ");
@@ -126,8 +122,8 @@ class ArticlesModel{
                 title = :title, 
                 slug = :slug, 
                 content = :content, 
-                excerpt = :excerpt, 
-                meta_description = :meta_description, 
+             
+              
                 featured_image = :featured_image, 
                 status = :status, 
                 category_id = :category_id, 
@@ -137,9 +133,7 @@ class ArticlesModel{
     
         $stmt->bindParam(':title', $data['title']);
         $stmt->bindParam(':slug', $data['slug']);
-        $stmt->bindParam(':content', $data['content']);
-        $stmt->bindParam(':excerpt', $data['excerpt']);
-        $stmt->bindParam(':meta_description', $data['meta_description']);
+        $stmt->bindParam(':content', $data['content']);     
         $stmt->bindParam(':featured_image', $data['featured_image']);
         $stmt->bindParam(':status', $data['status']);
         $stmt->bindParam(':category_id', $data['category']);

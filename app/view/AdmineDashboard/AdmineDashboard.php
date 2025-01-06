@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +27,7 @@ session_start();
                     </div>
                     <div class="flex space-x-4">
                         <!-- Profile Button -->
-                        <a href="/app/view/userlogin.php" class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition duration-300">Profile</a>
+                        <a href="/app/view/AdmineDashboard/users/Profile.php" class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition duration-300">Profile</a>
                         <!-- Logout Button -->
                         <a href="/app/view/AdmineDashboard/users/logout.php" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300">Log Out</a>
                     </div>

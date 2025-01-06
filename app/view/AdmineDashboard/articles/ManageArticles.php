@@ -108,9 +108,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
                                 <?= nl2br(htmlspecialchars($article['content'])) ?>
                             </p>
 
-                            <div class="mt-4 text-sm text-gray-500 italic">
-                                <strong>Meta Description:</strong> <?= htmlspecialchars($article['meta_description']) ?>
-                            </div>
 
                             <div class="mt-6 flex space-x-6 items-center ">
                                 <!-- Edit Icon -->
