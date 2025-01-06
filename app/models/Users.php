@@ -21,15 +21,14 @@ class Users {
         Database::getInstance();
         $stmt = Database::getConnection()->prepare("INSERT INTO users(username, email, pass, bio, profile_picture, role)
             VALUES(:username, :email, :pass, :bio, :profile_picture, :role)");
-        $stmt->bindParam(':username', $data['username']);
-        $stmt->bindParam(':email', $data['email']);
-        // $stmt->bindParam(':pass', password_hash($data['pass'], PASSWORD_BCRYPT)); 
-         // Hash password
-         $stmt->bindParam(':pass', $data['pass']);
-        $stmt->bindParam(':bio', $data['bio']);
-        $stmt->bindParam(':profile_picture', $data['profile_picture']);
-        $stmt->bindParam(':role', $data['role']);
-        $stmt->execute();
+            $hash = password_hash($data['pass'],PASSWORD_DEFAULT);
+            $stmt->bindParam(':username', $data['username']);
+            $stmt->bindParam(':email', $data['email']);
+            $stmt->bindParam(':pass', $hash);
+            $stmt->bindParam(':bio', $data['bio']);
+            $stmt->bindParam(':profile_picture', $data['profile_picture']);
+            $stmt->bindParam(':role', $data['role']);
+            $stmt->execute();
 
     }
 }

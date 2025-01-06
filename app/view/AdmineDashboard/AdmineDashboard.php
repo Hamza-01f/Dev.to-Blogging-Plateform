@@ -23,7 +23,7 @@ session_start();
             <div class="flex items-center space-x-6">
                 <?php if (isset($_SESSION['user'])): ?>
                     <div class="text-sm">
-                        <span>Hello, <?= $_SESSION['user']['username'] ?>!</span>
+                        <span>Hello Back Admin <?= $_SESSION['user']['username'] ?>!</span>
                     </div>
                     <div class="flex space-x-4">
                         <!-- Profile Button -->
