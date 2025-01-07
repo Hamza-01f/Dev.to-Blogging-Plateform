@@ -30,6 +30,8 @@ class auth {
             } else { 
                 echo "Invalid username or password";
             }
+        }else{
+         echo 'incorrect password';
         }
     }
 

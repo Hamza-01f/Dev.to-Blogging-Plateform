@@ -1,7 +1,9 @@
 <?php
+session_start();
 
-session_start(); 
-
+if(isset($_POST['ask_to_be_author'])){
+    
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +27,7 @@ session_start();
             <div class="flex space-x-4">
                 <?php if (isset($_SESSION['user'])): ?>
                     <!-- Display Log Out and Profile buttons if user is logged in -->
-                    <span class="text-white font-semibold">Hello, <?= $_SESSION['user']['username'] ?>!</span>
+                    <span class="text-white font-semibold">Welcome, <?= $_SESSION['user']['username'] ?>!</span>
                     <a href="/app/view/AdmineDashboard/users/Profile.php" class="text-white py-2 px-4 bg-yellow-500 hover:bg-yellow-600 rounded-lg shadow-md transition duration-300">Profile</a>
                     <a href="logout.php" class="text-white py-2 px-4 bg-red-500 hover:bg-red-600 rounded-lg shadow-md transition duration-300">Log Out</a>
                 <?php else: ?>
@@ -42,6 +44,7 @@ session_start();
         <div class="container mx-auto text-center">
             <h1 class="text-5xl font-extrabold mb-4">Welcome to DivoBlog</h1>
             <p class="text-xl mb-6">Explore the latest articles, news, and insights across various categories!</p>
+            
             <?php if (isset($_SESSION['user'])): ?>
                 <!-- If user is logged in, provide a link to start reading -->
                 <a href="#articles" class="inline-block py-3 px-6 bg-yellow-400 text-gray-800 rounded-full shadow-lg hover:bg-yellow-500 hover:shadow-xl transition duration-300">Start Reading</a>
@@ -51,6 +54,26 @@ session_start();
             <?php endif; ?>
         </div>
     </section>
+
+    <!-- Ask to be Author Section (Only Visible for Logged-in Users) -->
+    <?php if (isset($_SESSION['user'])): ?>
+        <section class="bg-white py-8" id="ask-author-section">
+            <div class="container mx-auto text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Want to be an Author?</h2>
+                <p class="text-lg text-gray-600 mb-6">If you're passionate about writing and want to contribute to our blog, you can apply to become an author!</p>
+                <button onclick="showModal()" class="inline-block py-3 px-6 bg-green-500 text-white rounded-lg shadow-lg hover:bg-green-600 transition duration-300">Ask to be Author</button>
+            </div>
+        </section>
+    <?php endif; ?>
+
+    <!-- Modal for Success Message -->
+    <div id="modal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center hidden">
+        <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+            <h3 class="text-2xl font-semibold text-green-500">Request Sent Successfully!</h3>
+            <p class="text-gray-600 mt-4">Thank you for your interest in becoming an author. We will review your request shortly.</p>
+            <button onclick="closeModal()" name ="ask_to_be_author" class="mt-4 py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300">Close</button>
+        </div>
+    </div>
 
     <!-- Articles Section -->
     <section id="articles" class="py-16 bg-white">
@@ -103,6 +126,22 @@ session_start();
             </p>
         </div>
     </footer>
+
+    <script>
+        // Function to show modal and hide the "Ask to be Author" section
+        function showModal() {
+            // Hide the ask-author section
+            document.getElementById("ask-author-section").style.display = "none";
+            // Show the success modal
+            document.getElementById("modal").classList.remove("hidden");
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            // Hide the modal
+            document.getElementById("modal").classList.add("hidden");
+        }
+    </script>
 
 </body>
 
