@@ -12,12 +12,9 @@ class ArticlesModel{
     private $tags = 'tags';
     private $article_tags = 'article_tags';
 
-    public static function getData(){
-
+    public static function getData($userId){
         Database::getInstance();
-
         $stmt = Database::getConnection()->prepare("
-
             SELECT 
                 articles.id AS article_id, 
                 articles.title,
@@ -33,24 +30,18 @@ class ArticlesModel{
             JOIN categories ON articles.category_id = categories.id
             LEFT JOIN article_tags ON articles.id = article_tags.article_id
             LEFT JOIN tags ON article_tags.tag_id = tags.id
-            WHERE articles.status = 'published'
+            WHERE articles.status = 'published' AND articles.author_id = :userId
             GROUP BY articles.id
-
         ");
-    
+        $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
         $stmt->execute();
-    
         $articles = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    
         return $articles;
     }
 
     public static function getAdmineArticle(){
-        
         Database::getInstance();
-
         $stmt = Database::getConnection()->prepare("
-
             SELECT 
                 articles.id AS article_id, 
                 articles.title,
@@ -67,13 +58,9 @@ class ArticlesModel{
             LEFT JOIN article_tags ON articles.id = article_tags.article_id
             LEFT JOIN tags ON article_tags.tag_id = tags.id
             GROUP BY articles.id
-
         ");
-    
         $stmt->execute();
-    
         $articles = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    
         return $articles;
     }
     
@@ -131,13 +118,13 @@ class ArticlesModel{
             articles.content,
          
             articles.featured_image,
-            articles.status,
+            articles.status
          
         FROM articles 
         WHERE articles.id = :id
          ");
 
-        $stmt->execute(['id' => $id]);
+        $stmt->execute([':id' => $id]);
 
         $articles = $stmt->fetchAll(\PDO::FETCH_ASSOC);
     

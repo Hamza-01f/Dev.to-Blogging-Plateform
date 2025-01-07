@@ -5,13 +5,9 @@ require_once __DIR__ . '/../../../controllers/ArticlesController.php';
 
 use App\Controllers\ArticleController;
 
-//brings data for author
 $articles = ArticleController::getData();
 
-
-//brings datafor admin
 $AdmineArticles = ArticleController::getAdmineArticle();
-
 
 $userRole =  $_SESSION['user']['role'];
 
@@ -52,16 +48,18 @@ if (isset($_GET['action']) && $_GET['action'] == 'draft' && isset($_GET['id'])) 
             </div>
             <div class="flex flex-col flex-1 overflow-y-auto">
                 <nav class="flex-1 p-4 space-y-2">
-                    <a href="/app/view/AdmineDashboard/AdmineDashboard.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                        Dashboard
-                    </a>
-                    <a href="/app/view/AdmineDashboard/dashboard.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
-                        <i class="fas fa-users h-6 w-6 mr-2"></i> Users
-                    </a>
+                   <?php if($userRole === 'admin'):?>
+                            <a href="/app/view/AdmineDashboard/AdmineDashboard.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                    </svg>
+                                    Dashboard
+                            </a>
+                            <a href="/app/view/AdmineDashboard/dashboard.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
+                                <i class="fas fa-users h-6 w-6 mr-2"></i> Users
+                            </a>
+                    <?php endif; ?>
                     <a href="/app/view/AdmineDashboard/categories/category.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
                         <i class="fas fa-th h-6 w-6 mr-2"></i> Categories
                     </a>
@@ -70,6 +68,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'draft' && isset($_GET['id'])) 
                     </a>
                     <a href="/app/view/AdmineDashboard/Tags/tag.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
                         <i class="fas fa-tag h-6 w-6 mr-2"></i> Tags
+                    </a>
+                    <a href="/app/view/AdmineDashboard/Tags/tag.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
+                        <i class="fas fa-tag h-6 w-6 mr-2"></i> Read Articles
                     </a>
                 </nav>
             </div>
@@ -118,10 +119,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'draft' && isset($_GET['id'])) 
                                 <span class="font-medium text-indigo-500">Category:</span> 
                                 <span class="font-semibold text-indigo-600"><?= htmlspecialchars($article['categorie_name']) ?></span>
                             </p>
-                            <p class="mt-2 text-sm text-gray-600">
-                                <span class="font-medium text-indigo-500">Author:</span> 
-                                <span class="font-semibold text-indigo-600"><?= htmlspecialchars($article['username']) ?></span>
-                            </p>
                             <p class="mt-4 text-gray-700 leading-relaxed text-lg">
                                 <?= nl2br(htmlspecialchars($article['content'])) ?>
                             </p>
@@ -138,8 +135,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'draft' && isset($_GET['id'])) 
                                             </svg>
                                         </div>
                                     </a>
-                            
-
+                    
                                 <!-- Delete Icon -->
                                 <a href="ManageArticles.php?id=<?= $article['article_id'] ?>&action=delete" onclick="return confirm('Are you sure you want to delete this article?')" class="text-red-600 hover:text-red-800 transition-all duration-300">
                                     <div class="p-3 bg-red-100 rounded-full hover:bg-red-200 shadow-md hover:shadow-lg">
@@ -154,7 +150,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'draft' && isset($_GET['id'])) 
                     </div>
                 </div>
                 <?php endforeach; ?>
-                <?php else: ?>
+                <?php elseif ($userRole === 'admin'): ?>
                     <?php foreach ($AdmineArticles as $AdmineArticle): ?>
                 <!-- Article Details Card -->
                 <div class="bg-blue-200 shadow-2xl rounded-lg p-6 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:bg-gray-50">
@@ -177,6 +173,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'draft' && isset($_GET['id'])) 
                                 <span class="font-medium text-indigo-500">Author:</span> 
                                 <span class="font-semibold text-indigo-600"><?= htmlspecialchars($AdmineArticle['username']) ?></span>
                             </p>
+                            <span class="font-medium text-indigo-500">content:</span> 
                             <p class="mt-4 text-gray-700 leading-relaxed text-lg">
                                 <?= nl2br(htmlspecialchars($AdmineArticle['content'])) ?>
                             </p>
@@ -203,16 +200,23 @@ if (isset($_GET['action']) && $_GET['action'] == 'draft' && isset($_GET['id'])) 
                                         </svg>
                                     </div>
                                 </a>
-                                 <?php if($AdmineArticle['status'] == 'draft'):  ?>
-                                    <a href="?id=<?= $AdmineArticle['article_id'] ?>&action=publish" class="text-green-600">Publish</a>
+                                <?php if($AdmineArticle['status'] === 'draft' && $userRole === 'admin' ):  ?>
+                                    <a href="?id=<?= $AdmineArticle['article_id'] ?>&action=publish" class="text-white">
+                                        <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg shadow-md">PUBLISH</button>
+                                    </a>
                                  <?php else:  ?>
-                                    <a href="?id=<?= $AdmineArticle['article_id'] ?>&action=draft" class="text-yellow-600">Draft</a>
-                                 <?php endif;  ?>
+                                    <a href="?id=<?= $AdmineArticle['article_id'] ?>&action=draft" class="text-white">
+                                        <button class="bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded-lg shadow-md">DRAFT</button>
+                                    </a>
+                                 <?php endif; ?>
                             </div>
                         </div>
                     </div>
                 </div>
                 <?php endforeach; ?>
+                <?php else:  ?>
+                    <p>OOps! No article registered with your name available </p>
+                    <p>Maybe it has not Published by Admin yet! </p>
                 <?php endif; ?>
             </main>
         </div>

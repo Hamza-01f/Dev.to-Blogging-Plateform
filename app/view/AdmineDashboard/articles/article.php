@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+$specificUser = $_SESSION['user']['id'];
+
 require_once __DIR__ . '/../../../controllers/CategoriesController.php';
 require_once __DIR__ . '/../../../controllers/UsersController.php';
 require_once __DIR__ . '/../../../controllers/TagsController.php';
@@ -127,12 +130,13 @@ $authors = UsersController::show();
                             </select>
                         </div>
                         <div>
-                            <label for="author" class="block text-sm font-medium text-gray-700">Author</label>
-                            <select name="author" id="author" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <? foreach($authors as $author):?>
-                                <option value="<? echo $author['id']?>"><? echo $author['username'];?></option>
-                                <?php endforeach; ?>
-                            </select>
+                            <!-- <label for="author" class="block text-sm font-medium text-gray-700">Author</label> -->
+                            <!-- <select name="author" id="author" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                <!? foreach($authors as $author):?-->
+                                <!--option value="<!-? echo $author['id']?>"><!? echo $author['username'];?></option>
+                                <!-?php endforeach; ?>
+                            </select> -->
+                            <input type="text" name="author" id="author" class="hidden" value="<?php echo $specificUser ?>"></input>
                         </div>
                         <div>
                             <label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>

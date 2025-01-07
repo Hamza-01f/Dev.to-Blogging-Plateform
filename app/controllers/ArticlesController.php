@@ -12,11 +12,12 @@ use App\Models\ArticleTagsModel;
 class ArticleController{
 
 public static function getData(){
-    $articles = ArticlesModel::getData();
+    $articles = ArticlesModel::getData($_SESSION['user']['id']);
     return $articles;
 }
 
 public static function getAdmineArticle(){
+    
     $articles = ArticlesModel::getAdmineArticle();
     return $articles;
 }
