@@ -6,8 +6,7 @@ use App\Controllers\UsersController;
 $rows = UsersController::show();
 
 // Get users who have requested to be authors
- $authorRequests = UsersController::getUsersAskedToBeAuthors();
-
+$authorRequests = UsersController::getUsersAskedToBeAuthors();
 
 if (isset($_GET['action']) && $_GET['action'] == 'banning') {
     $id = $_GET['id'];
@@ -15,12 +14,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'banning') {
 }else if(isset($_GET['action']) && $_GET['action'] == 'accept'){
     $id = $_GET['id'];
     $Newid = $_GET['user_id'];
-    UsersController::makeAuthor($id,$Newid);
+    UsersController::makeAuthor($id, $Newid);
 }else if(isset($_GET['action']) && $_GET['action'] == 'reject'){
     $id = $_GET['id'];
     UsersController::rejectAuthor($id);
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -89,6 +87,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'banning') {
                         <?php
                         if ($rows) {
                             foreach($rows as $row) {
+                                $isBanned = $row['Banned']; 
                         ?>
                             <tr class="border-b hover:bg-gray-100 transition-all">
                                 <td class="py-3 px-4"><?= $row['username']; ?></td>
@@ -99,20 +98,31 @@ if (isset($_GET['action']) && $_GET['action'] == 'banning') {
                                 <td class="py-3 px-4"><?= $row['role']; ?></td>
                                 <td class="px-4 py-2 text-sm text-gray-600">
                                     <div class="flex justify-center space-x-4">
-                                        <div class=" mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer w-6 h-6 bg-red-400 rounded-full">
-                                            <a href="dashboard.php?id=<?= $row['id']; ?>&action=banning">
-                                                <svg xmlns="http://www.w3.org/2000/svg"  class="w-6 h-6 text-green-500" viewBox="0 0 512 512">
-                                                    <path d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"/>
-                                                </svg>
-                                            </a>
-                                        </div>
+                                        <!-- Display ban icon based on banned status -->
+                                        <?php if ($isBanned): ?>
+                                            <div class="mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer w-7 h-7 bg-green-400 rounded-full">
+                                                <a href="dashboard.php?id=<?= $row['id']; ?>&action=banning">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-6 h-6 text-green-500">
+                                                        <path d="M224 64c-44.2 0-80 35.8-80 80l0 48 240 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0 0-48C80 64.5 144.5 0 224 0c57.5 0 107 33.7 130.1 82.3c7.6 16 .8 35.1-15.2 42.6s-35.1 .8-42.6-15.2C283.4 82.6 255.9 64 224 64zm32 320c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0z"/>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        <?php else: ?>
+                                            <div class="mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer w-6 h-6 bg-red-400 rounded-full">
+                                                <a href="dashboard.php?id=<?= $row['id']; ?>&action=banning">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-green-500" viewBox="0 0 512 512">
+                                                        <path d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"/>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                 </td>
                             </tr>
                         <?php
                             }
                         } else {
-                            echo "<tr><td colspan='4' class='py-3 px-4 text-center text-gray-500'>No data available</td></tr>";
+                            echo "<tr><td colspan='5' class='py-3 px-4 text-center text-gray-500'>No data available</td></tr>";
                         }
                         ?>
                     </tbody>
@@ -128,7 +138,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'banning') {
                             <th class="py-3 px-4 text-left">Username</th>
                             <th class="py-3 px-4 text-left">Email</th>
                             <th class="py-3 px-4 text-left">Profile Picture</th>
-                            <th class="pl-48  text-left">Actions</th>
+                            <th class="pl-48 text-left">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -143,39 +153,33 @@ if (isset($_GET['action']) && $_GET['action'] == 'banning') {
                                     <img src="<?= $request['image_url']; ?>" alt="Profile Picture" class="w-12 h-12 rounded-full object-cover">
                                 </td>
                                 <td class="px-4 py-2 text-sm text-gray-600">
-                                <div class="flex justify-center space-x-4">
-                                    <div class="flex justify-center transform hover:text-purple-500 hover:scale-110 cursor-pointer items-center w-10 h-10 bg-green-300 rounded-full">
-                                    <a href="dashboard.php?id=<?= $request['id']; ?>&user_id=<?= $request['user_id']; ?>&action=accept">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-6 h-6 text-green-500">
-                                                <!-- Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc. -->
-                                                <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
-                                            </svg>
-                                        </a>    
+                                    <div class="flex justify-center space-x-4">
+                                        <div class="flex justify-center transform hover:text-purple-500 hover:scale-110 cursor-pointer items-center w-10 h-10 bg-green-300 rounded-full">
+                                            <a href="dashboard.php?id=<?= $request['id']; ?>&user_id=<?= $request['user_id']; ?>&action=accept">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-6 h-6 text-green-500">
+                                                    <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3l32.3-32.3c12.5-12.5 32.8-12.5 45.3 0l77.1 77.1 187.7-187.7c12.5-12.5 32.8-12.5 45.3 0l32.3 32.3z"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                        <div class="flex justify-center transform hover:text-purple-500 hover:scale-110 cursor-pointer items-center w-10 h-10 bg-red-500 rounded-full">
+                                            <a href="dashboard.php?id=<?= $request['id']; ?>&action=reject">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-6 h-6 text-green-500">
+                                                    <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3l32.3-32.3c12.5-12.5 32.8-12.5 45.3 0l77.1 77.1 187.7-187.7c12.5-12.5 32.8-12.5 45.3 0l32.3 32.3z"/>
+                                                </svg>
+                                            </a>
+                                        </div>
                                     </div>
-
-                                    <div class="flex justify-center transform hover:text-purple-500 hover:scale-110 cursor-pointer items-center w-10 h-10 bg-red-300 rounded-full">
-                                        <a href="dashboard.php?id=<?= $request['id']; ?>&action=reject">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="w-6 h-6 text-red-500">
-                                                <!-- Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc. -->
-                                                <path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-
-
                                 </td>
                             </tr>
                         <?php
                             }
                         } else {
-                            echo "<tr><td colspan='4' class='py-3 px-4 text-center text-gray-500'>No requests yet</td></tr>";
+                            echo "<tr><td colspan='4' class='py-3 px-4 text-center text-gray-500'>No users requested to be authors</td></tr>";
                         }
                         ?>
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 </body>
