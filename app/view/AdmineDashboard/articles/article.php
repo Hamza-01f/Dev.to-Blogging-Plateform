@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once __DIR__ . '/../../../controllers/CategoriesController.php';
 require_once __DIR__ . '/../../../controllers/UsersController.php';
 require_once __DIR__ . '/../../../controllers/TagsController.php';
@@ -113,28 +113,11 @@ $authors = UsersController::show();
                                 class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                                 required></textarea>
                         </div>
-                        <!-- <div>
-                            <label for="excerpt" class="block text-sm font-medium text-gray-700">Excerpt</label>
-                            <input type="text" name="excerpt" id="excerpt" placeholder="Enter excerpt"
-                                class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                        </div> -->
-                        <!-- <div>
-                            <label for="meta_description" class="block text-sm font-medium text-gray-700">Meta Description</label>
-                            <input type="text" name="meta_description" id="meta_description" placeholder="Enter meta description"
-                                class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                        </div> -->
                         <div>
                             <label for="featured_image" class="block text-sm font-medium text-gray-700">Featured Image URL</label>
                             <input type="text" name="featured_image" id="featured_image" placeholder="Enter featured image URL"
                                 class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
-                        <!-- <div>
-                            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                            <select name="status" id="status" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <option value="draft">Draft</option>
-                                <option value="published">Published</option>
-                            </select>
-                        </div> -->
                         <div>
                             <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
                             <select name="category" id="category" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">

@@ -16,6 +16,19 @@ public static function getData(){
     return $articles;
 }
 
+public static function getAdmineArticle(){
+    $articles = ArticlesModel::getAdmineArticle();
+    return $articles;
+}
+
+public static function publish($id){
+    ArticlesModel::publish($id);
+}
+
+public static function draft($id){
+    ArticlesModel::draft($id);
+}
+
 public static function addArticle(){
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addArticle'])) {
        

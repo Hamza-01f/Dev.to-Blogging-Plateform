@@ -1,16 +1,34 @@
 <?php
+session_start();
 
 require_once __DIR__ . '/../../../controllers/ArticlesController.php';
 
 use App\Controllers\ArticleController;
 
+//brings data for author
 $articles = ArticleController::getData();
+
+
+//brings datafor admin
+$AdmineArticles = ArticleController::getAdmineArticle();
+
+
+$userRole =  $_SESSION['user']['role'];
 
 if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
     $id = $_GET['id'];
     ArticleController::delete($id); 
 }
 
+if (isset($_GET['action']) && $_GET['action'] == 'publish' && isset($_GET['id'])) {
+    $id = $_GET['id'];
+    ArticleController::publish($id); 
+}
+
+if (isset($_GET['action']) && $_GET['action'] == 'draft' && isset($_GET['id'])) {
+    $id = $_GET['id'];
+    ArticleController::draft($id); 
+}
 ?>
 
 <!DOCTYPE html>
@@ -81,7 +99,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
 
             <main class="flex-1 p-6 space-y-6 overflow-y-auto">
                 <div class="text-3xl font-bold text-gray-900 mb-6">Article Details</div>
-
+                <?php if($userRole === 'author'):?>
                 <?php foreach ($articles as $article): ?>
                 <!-- Article Details Card -->
                 <div class="bg-blue-200 shadow-2xl rounded-lg p-6 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:bg-gray-50">
@@ -92,7 +110,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
                         </div>
 
                         <!-- Article Info Section -->
-                        <div class="flex-1">
+                        <div class="flex-1">                          
                             <h2 class="text-3xl font-bold text-gray-800 hover:text-indigo-600 transition-all duration-300">
                                 <?= htmlspecialchars($article['title']) ?>
                             </h2>
@@ -111,14 +129,16 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
 
                             <div class="mt-6 flex space-x-6 items-center ">
                                 <!-- Edit Icon -->
-                                <a href="update.php?id=<?= $article['article_id'] ?>" class="text-blue-600 hover:text-blue-800 transition-all duration-300">
-                                    <div class="p-3 bg-blue-100 rounded-full hover:bg-blue-200 shadow-md hover:shadow-lg">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                        </svg>
-                                    </div>
-                                </a>
+                              
+                                    <a href="update.php?id=<?= $article['article_id'] ?>" class="text-blue-600 hover:text-blue-800 transition-all duration-300">
+                                        <div class="p-3 bg-blue-100 rounded-full hover:bg-blue-200 shadow-md hover:shadow-lg">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                            </svg>
+                                        </div>
+                                    </a>
+                            
 
                                 <!-- Delete Icon -->
                                 <a href="ManageArticles.php?id=<?= $article['article_id'] ?>&action=delete" onclick="return confirm('Are you sure you want to delete this article?')" class="text-red-600 hover:text-red-800 transition-all duration-300">
@@ -128,12 +148,72 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
                                         </svg>
                                     </div>
                                 </a>
+
                             </div>
                         </div>
                     </div>
                 </div>
                 <?php endforeach; ?>
+                <?php else: ?>
+                    <?php foreach ($AdmineArticles as $AdmineArticle): ?>
+                <!-- Article Details Card -->
+                <div class="bg-blue-200 shadow-2xl rounded-lg p-6 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:bg-gray-50">
+                    <div class="flex flex-col lg:flex-row gap-6">
+                        <!-- Featured Image Section -->
+                        <div class="w-full lg:w-1/3">
+                            <img src="<?= $AdmineArticle['featured_image'] ?>" alt="Featured Image" class=" bg-green-200 rounded-lg shadow-lg w-full object-cover h-48 lg:h-64 transform transition-all duration-300 ease-in-out hover:scale-105">
+                        </div>
 
+                        <!-- Article Info Section -->
+                        <div class="flex-1">                          
+                            <h2 class="text-3xl font-bold text-gray-800 hover:text-indigo-600 transition-all duration-300">
+                                <?= htmlspecialchars($AdmineArticle['title']) ?>
+                            </h2>
+                            <p class="mt-2 text-sm text-gray-600">
+                                <span class="font-medium text-indigo-500">Category:</span> 
+                                <span class="font-semibold text-indigo-600"><?= htmlspecialchars($AdmineArticle['categorie_name']) ?></span>
+                            </p>
+                            <p class="mt-2 text-sm text-gray-600">
+                                <span class="font-medium text-indigo-500">Author:</span> 
+                                <span class="font-semibold text-indigo-600"><?= htmlspecialchars($AdmineArticle['username']) ?></span>
+                            </p>
+                            <p class="mt-4 text-gray-700 leading-relaxed text-lg">
+                                <?= nl2br(htmlspecialchars($AdmineArticle['content'])) ?>
+                            </p>
+
+
+                            <div class="mt-6 flex space-x-6 items-center ">
+                                <!-- Edit Icon -->
+                              
+                                    <a href="update.php?id=<?= $AdmineArticle['article_id'] ?>" class="text-blue-600 hover:text-blue-800 transition-all duration-300">
+                                        <div class="p-3 bg-blue-100 rounded-full hover:bg-blue-200 shadow-md hover:shadow-lg">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                            </svg>
+                                        </div>
+                                    </a>
+                            
+
+                                <!-- Delete Icon -->
+                                <a href="ManageArticles.php?id=<?= $AdmineArticle['article_id'] ?>&action=delete" onclick="return confirm('Are you sure you want to delete this article?')" class="text-red-600 hover:text-red-800 transition-all duration-300">
+                                    <div class="p-3 bg-red-100 rounded-full hover:bg-red-200 shadow-md hover:shadow-lg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </div>
+                                </a>
+                                 <?php if($AdmineArticle['status'] == 'draft'):  ?>
+                                    <a href="?id=<?= $AdmineArticle['article_id'] ?>&action=publish" class="text-green-600">Publish</a>
+                                 <?php else:  ?>
+                                    <a href="?id=<?= $AdmineArticle['article_id'] ?>&action=draft" class="text-yellow-600">Draft</a>
+                                 <?php endif;  ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+                <?php endif; ?>
             </main>
         </div>
     </div>
@@ -141,3 +221,5 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
 </body>
 
 </html>
+
+                               
