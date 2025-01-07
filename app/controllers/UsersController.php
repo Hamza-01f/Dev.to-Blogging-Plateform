@@ -32,4 +32,9 @@ class UsersController {
             Users::AddUser($data);
         }
     }
+
+    public static function getUsersAskedToBeAuthors(){
+        $askedusers = Users::getUsersAskedToBeAuthors();
+        return $askedusers ;
+    }
 }

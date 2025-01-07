@@ -1,9 +1,20 @@
 <?php
 session_start();
 
+require_once __DIR__ . '/../../../controllers/authcontroller.php';
+
+use App\controllers\auth;
+
 if(isset($_POST['ask_to_be_author'])){
+    $username = $_SESSION['user']['username'];
+    $email = $_SESSION['user']['email'];
+    $image_url = $_SESSION['user']['profile_picture']; 
+    $user_id = $_SESSION['user']['id'];
     
+    auth::askedToAuthor( $username,$email,$image_url,$user_id);
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,7 +82,9 @@ if(isset($_POST['ask_to_be_author'])){
         <div class="bg-white rounded-lg shadow-lg p-8 text-center">
             <h3 class="text-2xl font-semibold text-green-500">Request Sent Successfully!</h3>
             <p class="text-gray-600 mt-4">Thank you for your interest in becoming an author. We will review your request shortly.</p>
-            <button onclick="closeModal()" name ="ask_to_be_author" class="mt-4 py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300">Close</button>
+            <form method = "POST">
+               <button onclick="closeModal()" name ="ask_to_be_author" class="mt-4 py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300">Close</button>
+            </from>
         </div>
     </div>
 

@@ -51,5 +51,10 @@ class auth {
         
             echo "Profile update failed.";
         }
+
+    }
+
+    public static function askedToAuthor($username,$email,$image_url,$user_id){
+        authModel::askedToAuthor($username,$email,$image_url,$user_id);
     }
 }

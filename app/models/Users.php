@@ -31,4 +31,11 @@ class Users {
             $stmt->execute();
 
     }
+
+    public static function getUsersAskedToBeAuthors(){
+        Database::getInstance();
+        $stmt = Database::getConnection()->prepare("SELECT * FROM author_requests");
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

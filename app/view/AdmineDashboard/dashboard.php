@@ -1,10 +1,12 @@
-<?php 
- 
+<?php
 require_once __DIR__ . '/../../controllers/UsersController.php';
 use App\Controllers\UsersController;
 
+// Get all users
 $rows = UsersController::show();
-// $totalUsers = UsersController::CountUsers();
+
+// Get users who have requested to be authors
+ $authorRequests = UsersController::getUsersAskedToBeAuthors();
 ?>
 
 <!DOCTYPE html>
@@ -16,10 +18,9 @@ $rows = UsersController::show();
     <script src="https://kit.fontawesome.com/f01941449c.js" crossorigin="anonymous"></script>
     <title>Dashboard</title>
 </head>
-<body class=" bg-gradient-to-r from-blue-100 to-indigo-200">
+<body class="bg-gradient-to-r from-blue-100 to-indigo-200">
     <!-- Sidebar -->
     <div class="flex h-screen">
-        <!-- Sidebar -->
         <div class="bg-indigo-900 text-white w-64 p-6">
             <div class="text-center mb-8">
                 <h1 class="text-3xl font-extrabold text-pink-500">DivoBlog</h1>
@@ -28,9 +29,6 @@ $rows = UsersController::show();
                 <a href="AdmineDashboard.php" class="flex items-center text-lg hover:text-pink-300 transition-colors">
                     <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
                 </a>
-                <!-- <a href="./Users/User.php" class="flex items-center text-lg hover:text-pink-300 transition-colors">
-                    <i class="fas fa-users mr-3"></i> Users
-                </a> -->
                 <a href="Articles/Article.php" class="flex items-center text-lg hover:text-pink-300 transition-colors">
                     <i class="fas fa-newspaper mr-3"></i>Add Articles
                 </a>
@@ -60,23 +58,22 @@ $rows = UsersController::show();
                 </div>
             </div>
 
-            <!-- Content: Welcome Message, Stats, etc. -->
-
-            <!-- User Table Section -->
-            <div class="overflow-x-auto bg-white rounded-lg shadow-lg border border-gray-200">
+            <!-- All Users Table Section -->
+            <div class="overflow-x-auto bg-white rounded-lg shadow-lg border border-gray-200 mb-8">
+                <h2 class="text-xl text-gray-700 font-semibold p-4">All Users</h2>
                 <table class="min-w-full text-sm text-gray-700">
                     <thead class="bg-gradient-to-r from-indigo-600 to-pink-600 text-white">
                         <tr>
                             <th class="py-3 px-4 text-left">Username</th>
                             <th class="py-3 px-4 text-left">Email</th>
                             <th class="py-3 px-4 text-left">Role</th>
-                            <th class="py-3 px-4 text-left">Actions</th>
+                            <th class="">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         if ($rows) {
-                            foreach($rows as $row){
+                            foreach($rows as $row) {
                         ?>
                             <tr class="border-b hover:bg-gray-100 transition-all">
                                 <td class="py-3 px-4"><?= $row['username']; ?></td>
@@ -84,9 +81,8 @@ $rows = UsersController::show();
                                 <td class="py-3 px-4"><?= $row['role']; ?></td>
                                 <td class="px-4 py-2 text-sm text-gray-600">
                                     <div class="flex justify-center space-x-4">
-                                        <!-- Delete icon -->
                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
-                                            <a href="dashboard.php?id=<?= $tag['id']; ?>&action=delete" onclick="return confirm('Are you sure you want to delete this tag?')">
+                                            <a href="dashboard.php?id=<?= $row['id']; ?>&action=delete" onclick="return confirm('Are you sure you want to delete this user?')">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                                     <path d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"/>
                                                 </svg>
@@ -105,8 +101,47 @@ $rows = UsersController::show();
                 </table>
             </div>
 
+            <!-- Users Who Requested to Be Authors Table Section -->
+            <div class="overflow-x-auto bg-white rounded-lg shadow-lg border border-gray-200">
+                <h2 class="text-xl text-gray-700 font-semibold p-4">Users Who Requested to Be Authors</h2>
+                <table class="min-w-full text-sm text-gray-700">
+                    <thead class="bg-gradient-to-r from-indigo-600 to-pink-600 text-white">
+                        <tr>
+                            <th class="py-3 px-4 text-left">Username</th>
+                            <th class="py-3 px-4 text-left">Email</th>
+                            <th class="py-3 px-4 text-left">Profile Picture</th>
+                            <th class="pl-48  text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($authorRequests) {
+                            foreach($authorRequests as $request) {
+                        ?>
+                            <tr class="border-b hover:bg-gray-100 transition-all">
+                                <td class="py-3 px-4"><?= $request['username']; ?></td>
+                                <td class="py-3 px-4"><?= $request['email']; ?></td>
+                                <td class="py-3 px-4">
+                                    <img src="<?= $request['image_url']; ?>" alt="Profile Picture" class="w-12 h-12 rounded-full object-cover">
+                                </td>
+                                <td class="px-4 py-2 text-sm text-gray-600">
+                                    <div class="flex justify-center space-x-4">
+                                        <button class="text-green-600 hover:text-green-800">Approve</button>
+                                        <button class="text-red-600 hover:text-red-800">Reject</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php
+                            }
+                        } else {
+                            echo "<tr><td colspan='4' class='py-3 px-4 text-center text-gray-500'>No requests yet</td></tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
-
 </body>
 </html>
