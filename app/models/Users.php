@@ -11,7 +11,7 @@ class Users {
     // Fetch users from the database
     public static function showUsers(){
         Database::getInstance();
-        $stmt = Database::getConnection()->prepare("SELECT * FROM ".self::$table."");
+        $stmt = Database::getConnection()->prepare("SELECT * FROM ".self::$table." WHERE role != 'admin' ");
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
@@ -57,4 +57,27 @@ class Users {
             echo "error happened ";
         }
     }
+
+    public static function banUser($id) {
+        Database::getInstance();
+        $stmt = Database::getConnection()->prepare("UPDATE " . self::$table . " SET banned = TRUE WHERE id = :id");
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    public static function unbanUser($id) {
+        Database::getInstance();
+        $stmt = Database::getConnection()->prepare("UPDATE " . self::$table . " SET banned = FALSE WHERE id = :id");
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    public static function isUserBanned($id) {
+        Database::getInstance();
+        $stmt = Database::getConnection()->prepare("SELECT * FROM users WHERE id = :id AND banned = 1");
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchColumn(); 
+    }
+
 }

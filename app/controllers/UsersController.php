@@ -41,4 +41,16 @@ class UsersController {
     public static function makeAuthor($id,$Newid){
           Users::makeAuthor($id,$Newid);
     }
+
+    public static function rejectAuthor($id){
+        Users::deletUser($id);
+    }
+
+    public static function toggleBan($id) {
+        if (Users::isUserBanned($id)) {
+            Users::unbanUser($id); 
+        } else {
+            Users::banUser($id); 
+        }
+    }
 }

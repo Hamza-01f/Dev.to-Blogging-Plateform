@@ -12,7 +12,7 @@ class auth {
         $user = authModel::finduser($username, $password);
         
         if(password_verify($password, $user[0]['pass'])) {
-            if ($user[0]['role'] == 'user') {
+            if ($user[0]['role'] == 'user' && $user[0]['Banned'] == false) {
                 session_start();
                 $_SESSION['user'] = $user[0]; 
                 header('Location: /app/view/AdmineDashboard/users/userpage.php');
@@ -22,13 +22,13 @@ class auth {
                 $_SESSION['user'] = $user[0];
                 header('Location: /app/view/AdmineDashboard/AdmineDashboard.php');
                 exit();          
-            } else if ($user[0]['role'] == 'author') {
+            } else if ($user[0]['role'] == 'author' && $user[0]['Banned'] == false ) {
                 session_start();
                 $_SESSION['user'] = $user[0];
                 header('Location: /app/view/AdmineDashboard/articles/ManageArticles.php');
                 exit();
             } else { 
-                echo "Invalid username or password";
+                echo "Sorry! You have banned by the admin , So you Could not joit Website.";
             }
         }else{
          echo 'incorrect password';
@@ -55,6 +55,7 @@ class auth {
     }
 
     public static function askedToAuthor($username,$email,$image_url,$user_id){
+        echo 'hello';
         authModel::askedToAuthor($username,$email,$image_url,$user_id);
     }
 }

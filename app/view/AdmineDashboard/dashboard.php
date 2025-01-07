@@ -11,13 +11,14 @@ $rows = UsersController::show();
 
 if (isset($_GET['action']) && $_GET['action'] == 'banning') {
     $id = $_GET['id'];
+    UsersController::toggleBan($id); 
 }else if(isset($_GET['action']) && $_GET['action'] == 'accept'){
     $id = $_GET['id'];
     $Newid = $_GET['user_id'];
     UsersController::makeAuthor($id,$Newid);
 }else if(isset($_GET['action']) && $_GET['action'] == 'reject'){
     $id = $_GET['id'];
-
+    UsersController::rejectAuthor($id);
 }
 
 ?>
@@ -143,7 +144,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'banning') {
                                 </td>
                                 <td class="px-4 py-2 text-sm text-gray-600">
                                 <div class="flex justify-center space-x-4">
-                                    <!-- First Icon (Green) -->
                                     <div class="flex justify-center transform hover:text-purple-500 hover:scale-110 cursor-pointer items-center w-10 h-10 bg-green-300 rounded-full">
                                     <a href="dashboard.php?id=<?= $request['id']; ?>&user_id=<?= $request['user_id']; ?>&action=accept">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-6 h-6 text-green-500">
@@ -153,7 +153,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'banning') {
                                         </a>    
                                     </div>
 
-                                    <!-- Second Icon (Red) -->
                                     <div class="flex justify-center transform hover:text-purple-500 hover:scale-110 cursor-pointer items-center w-10 h-10 bg-red-300 rounded-full">
                                         <a href="dashboard.php?id=<?= $request['id']; ?>&action=reject">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="w-6 h-6 text-red-500">
