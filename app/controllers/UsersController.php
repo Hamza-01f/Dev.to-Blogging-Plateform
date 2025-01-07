@@ -37,4 +37,8 @@ class UsersController {
         $askedusers = Users::getUsersAskedToBeAuthors();
         return $askedusers ;
     }
+
+    public static function makeAuthor($id,$Newid){
+          Users::makeAuthor($id,$Newid);
+    }
 }

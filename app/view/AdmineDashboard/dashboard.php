@@ -7,6 +7,19 @@ $rows = UsersController::show();
 
 // Get users who have requested to be authors
  $authorRequests = UsersController::getUsersAskedToBeAuthors();
+
+
+if (isset($_GET['action']) && $_GET['action'] == 'banning') {
+    $id = $_GET['id'];
+}else if(isset($_GET['action']) && $_GET['action'] == 'accept'){
+    $id = $_GET['id'];
+    $Newid = $_GET['user_id'];
+    UsersController::makeAuthor($id,$Newid);
+}else if(isset($_GET['action']) && $_GET['action'] == 'reject'){
+    $id = $_GET['id'];
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -66,6 +79,7 @@ $rows = UsersController::show();
                         <tr>
                             <th class="py-3 px-4 text-left">Username</th>
                             <th class="py-3 px-4 text-left">Email</th>
+                            <th class="py-3 px-4 text-left">Profile</th>
                             <th class="py-3 px-4 text-left">Role</th>
                             <th class="">Actions</th>
                         </tr>
@@ -78,12 +92,15 @@ $rows = UsersController::show();
                             <tr class="border-b hover:bg-gray-100 transition-all">
                                 <td class="py-3 px-4"><?= $row['username']; ?></td>
                                 <td class="py-3 px-4"><?= $row['email']; ?></td>
+                                <td class="py-3 px-4">
+                                    <img src="<?= $row['profile_picture']; ?>" alt="Profile Picture" class="w-12 h-12 rounded-full object-cover">
+                                </td>
                                 <td class="py-3 px-4"><?= $row['role']; ?></td>
                                 <td class="px-4 py-2 text-sm text-gray-600">
                                     <div class="flex justify-center space-x-4">
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
-                                            <a href="dashboard.php?id=<?= $row['id']; ?>&action=delete" onclick="return confirm('Are you sure you want to delete this user?')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                        <div class=" mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer w-6 h-6 bg-red-400 rounded-full">
+                                            <a href="dashboard.php?id=<?= $row['id']; ?>&action=banning">
+                                                <svg xmlns="http://www.w3.org/2000/svg"  class="w-6 h-6 text-green-500" viewBox="0 0 512 512">
                                                     <path d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"/>
                                                 </svg>
                                             </a>
@@ -125,10 +142,29 @@ $rows = UsersController::show();
                                     <img src="<?= $request['image_url']; ?>" alt="Profile Picture" class="w-12 h-12 rounded-full object-cover">
                                 </td>
                                 <td class="px-4 py-2 text-sm text-gray-600">
-                                    <div class="flex justify-center space-x-4">
-                                        <button class="text-green-600 hover:text-green-800">Approve</button>
-                                        <button class="text-red-600 hover:text-red-800">Reject</button>
+                                <div class="flex justify-center space-x-4">
+                                    <!-- First Icon (Green) -->
+                                    <div class="flex justify-center transform hover:text-purple-500 hover:scale-110 cursor-pointer items-center w-10 h-10 bg-green-300 rounded-full">
+                                    <a href="dashboard.php?id=<?= $request['id']; ?>&user_id=<?= $request['user_id']; ?>&action=accept">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-6 h-6 text-green-500">
+                                                <!-- Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc. -->
+                                                <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
+                                            </svg>
+                                        </a>    
                                     </div>
+
+                                    <!-- Second Icon (Red) -->
+                                    <div class="flex justify-center transform hover:text-purple-500 hover:scale-110 cursor-pointer items-center w-10 h-10 bg-red-300 rounded-full">
+                                        <a href="dashboard.php?id=<?= $request['id']; ?>&action=reject">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="w-6 h-6 text-red-500">
+                                                <!-- Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc. -->
+                                                <path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+
+
                                 </td>
                             </tr>
                         <?php

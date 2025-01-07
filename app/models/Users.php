@@ -38,4 +38,23 @@ class Users {
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    public static function deletUser($id){
+        Database::getInstance();
+        $stmt = Database::getConnection()->prepare("DELETE  FROM author_requests WHERE id = :id");
+        $stmt->bindParam(':id',$id,\PDO::PARAM_INT);
+        $stmt->execute(); 
+    }
+
+    public static function makeAuthor($id,$Newid){
+        Database::getInstance();
+        $stmt = Database::getConnection()->prepare("UPDATE users SET role = 'author' WHERE id = :Newid");
+        $stmt->bindParam(':Newid',$Newid,\PDO::PARAM_INT);
+        $modify = $stmt->execute();
+        if($modify){
+           self::deletUser($id);
+        }else{
+            echo "error happened ";
+        }
+    }
 }
