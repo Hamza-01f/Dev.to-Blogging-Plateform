@@ -2,8 +2,13 @@
 session_start();
 
 require_once __DIR__ . '/../../../controllers/authcontroller.php';
+require_once __DIR__ . '/../../../controllers/ArticlesController.php';
 
 use App\controllers\auth;
+
+use App\Controllers\ArticleController;
+
+$articles = ArticleController::getPublicData();
 
 if(isset($_POST['ask_to_be_author'])){
     $username = $_SESSION['user']['username'];
@@ -93,37 +98,49 @@ if(isset($_POST['ask_to_be_author'])){
         <div class="container mx-auto text-center">
             <h2 class="text-4xl font-bold text-gray-900 mb-12">Latest Articles</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
-                <!-- Article 1 -->
-                <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transform transition-all duration-300">
-                    <img src="https://via.placeholder.com/300" alt="Article Image" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-2">The Future of Tech: What's Next?</h3>
-                        <p class="text-gray-600 mb-4">Dive into the world of upcoming tech trends that are shaping the future of our society.</p>
-                        <a href="#" class="text-indigo-600 hover:text-indigo-800">Read more</a>
+                <?php foreach ($articles as $article): ?>
+                    <div class="bg-green-100 shadow-lg rounded-lg overflow-hidden hover:scale-105 transform transition-all duration-300">
+                        <div class="bg-blue-100">
+                            <img 
+                                src="<?php echo htmlspecialchars($article['featured_image']) ?: 'https://via.placeholder.com/300'; ?>" 
+                                alt="<?php echo htmlspecialchars((string)$article['title']); ?>" 
+                                class="w-full h-48 object-cover"
+                            />
+                        </div>
+                        <div class="p-6">
+                             <div class="flex items-center gap-2 mb-3 ml-32 capitalize">
+                                <!-- <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">
+                                    <!?php echo htmlspecialchars($article['categorie_name']); ?>
+                                </span>  -->
+                                <span class="px-3 py-1 bg-blue-200 text-black-700 rounded-full text-sm ml-10">
+                                    By <?php echo htmlspecialchars($article['username']); ?>
+                                </span>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-2 capitalize">
+                              <span class="px-3 py-1 bg-blue-100 text-black-600 rounded-full text-sm">
+                                 <?php echo htmlspecialchars($article['title']); ?>
+                              </span>
+                            </h3>
+                            <div class = "border-2 border-black rounded mb-2 font-mono">
+                                <p class="text-gray-600 mb-4 overflow-hidden line-clamp-3 font-mono">
+                                    <?php echo htmlspecialchars((string)$article['content']); ?>
+                                </p>
+                            </div>    
+                            <div class="bg-blue-500 rounded capitalize">
+                                <a href="/../../../../readarticles.php?id=<?=  $article['article_id']; ?>" class="text-white hover:text-indigo-800 font-medium ml-8">
+                                    read more about this article
+                                </a>
+                                <!-- <div class="flex gap-2">
+                                    <!?php foreach (explode(',', $article['tags']) as $tag): ?>
+                                        <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded-full">
+                                            #<!?php echo htmlspecialchars(trim($tag)); ?>
+                                        </span>
+                                    <!?php endforeach; ?>
+                                </div> -->
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Article 2 -->
-                <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transform transition-all duration-300">
-                    <img src="https://via.placeholder.com/300" alt="Article Image" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-2">10 Tips for Better Productivity</h3>
-                        <p class="text-gray-600 mb-4">Learn the best practices and techniques to enhance your productivity and efficiency at work.</p>
-                        <a href="#" class="text-indigo-600 hover:text-indigo-800">Read more</a>
-                    </div>
-                </div>
-
-                <!-- Article 3 -->
-                <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transform transition-all duration-300">
-                    <img src="https://via.placeholder.com/300" alt="Article Image" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-2">Understanding Cryptocurrency</h3>
-                        <p class="text-gray-600 mb-4">A beginner's guide to understanding cryptocurrency, blockchain, and their impact on the economy.</p>
-                        <a href="#" class="text-indigo-600 hover:text-indigo-800">Read more</a>
-                    </div>
-                </div>
-
+                <?php endforeach; ?>
             </div>
         </div>
     </section>

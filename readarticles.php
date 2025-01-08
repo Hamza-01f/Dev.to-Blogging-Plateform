@@ -71,7 +71,7 @@ if(isset($_GET['id'])){
         .reading-progress {
             z-index: 41;  
         }
-        
+
     </style>
 </head>
 <body class="article-bg min-h-screen">
@@ -84,22 +84,22 @@ if(isset($_GET['id'])){
             </a>
 
             <div class="flex items-center space-x-4">
-            <?php if($role === 'admin' || $role === 'author' || $role === 'user'): ?>
+            <?php if($role === 'admin' || $role === 'author' ): ?>
                 <a href="/app/view/AdmineDashboard/articles/ManageArticles.php" class="flex items-center px-4 py-2 bg-white text-indigo-600 rounded-lg hover:bg-gray-100 transition duration-300 shadow-md">
                     <i class="fas fa-arrow-left mr-2"></i>
                     Back
                 </a>
-            
-                <a href="/app/view/AdmineDashboard/users/logout.php" class="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 shadow-md">
-                    <i class="fas fa-sign-out-alt mr-2"></i>
-                    Logout
-                </a>
+
             <?php else: ?>
-                <a href="index.php" class="flex items-center px-4 py-2 bg-white text-indigo-600 rounded-lg hover:bg-gray-100 transition duration-300 shadow-md">
+                    <a href="/app/view/AdmineDashboard/users/userpage.php" class="flex items-center px-4 py-2 bg-white text-indigo-600 rounded-lg hover:bg-gray-100 transition duration-300 shadow-md">
                     <i class="fas fa-arrow-left mr-2"></i>
                     Back
-                </a>
+                    </a>
             <?php endif; ?>
+                    <a href="/app/view/AdmineDashboard/users/logout.php" class="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 shadow-md">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    Logout
+                    </a>
             </div>
         </div>
     </nav>

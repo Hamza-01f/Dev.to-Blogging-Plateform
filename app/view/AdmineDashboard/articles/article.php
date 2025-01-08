@@ -2,6 +2,7 @@
 session_start();
 
 $specificUser = $_SESSION['user']['id'];
+$userRole = $specificUser = $_SESSION['user']['role'];
 
 require_once __DIR__ . '/../../../controllers/CategoriesController.php';
 require_once __DIR__ . '/../../../controllers/UsersController.php';
@@ -52,17 +53,19 @@ $authors = UsersController::show();
                         </svg>
                         Dashboard
                     </a>
+                  <?php if($userRole == 'admin'):?>
                     <a href="/app/view/AdmineDashboard/dashboard.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
                         <i class="fas fa-users h-6 w-6 mr-2"></i> Users
                     </a>
                     <a href="/app/view/AdmineDashboard/categories/category.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
                         <i class="fas fa-th h-6 w-6 mr-2"></i> Categories
                     </a>
-                    <a href="ManageArticles.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
-                        <i class="fas fa-newspaper h-6 w-6 mr-2"></i>Manage Articles
-                    </a>
                     <a href="/app/view/AdmineDashboard/Tags/tag.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
                         <i class="fas fa-tag h-6 w-6 mr-2"></i> Tags
+                    </a>
+                    <?php endif; ?>
+                    <a href="ManageArticles.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
+                        <i class="fas fa-newspaper h-6 w-6 mr-2"></i>Manage Articles
                     </a>
                 </nav>
             </div>
@@ -130,12 +133,12 @@ $authors = UsersController::show();
                             </select>
                         </div>
                         <div>
-                            <!-- <label for="author" class="block text-sm font-medium text-gray-700">Author</label> -->
-                            <!-- <select name="author" id="author" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <!? foreach($authors as $author):?-->
-                                <!--option value="<!-? echo $author['id']?>"><!? echo $author['username'];?></option>
-                                <!-?php endforeach; ?>
-                            </select> -->
+                            <label for="author" class="block text-sm font-medium text-gray-700">Author</label> 
+                              <select name="author" id="author" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                <? foreach($authors as $author):?>
+                                <option value="<!-? echo $author['id']?>"><? echo $author['username'];?></option>
+                                <?php endforeach; ?>
+                            </select>
                             <input type="text" name="author" id="author" class="hidden" value="<?php echo $specificUser ?>"></input>
                         </div>
                         <div>
