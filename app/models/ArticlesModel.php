@@ -23,6 +23,7 @@ class ArticlesModel{
                 articles.featured_image,
                 articles.status,
                 users.username,
+                articles.views,
                 categories.categorie_name,
                 GROUP_CONCAT(tags.name_tag) AS tags
             FROM articles 
@@ -37,6 +38,29 @@ class ArticlesModel{
         $stmt->execute();
         $articles = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $articles;
+    }
+
+
+    public static function getDataOfArticle($articleId){
+        $stmt = Database::getConnection()->prepare("
+            SELECT  
+                articles.title,
+                articles.content,    
+                articles.views
+            FROM articles 
+            WHERE id = :articleId
+        ");
+        $stmt->bindParam(':articleId', $articleId, \PDO::PARAM_INT);
+        $stmt->execute();
+        $articles = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $articles;
+    }
+
+    public static function incrementView($articleId){
+        Database::getInstance();
+        $stmt = Database::getConnection()->prepare("UPDATE articles SET views = views+1 WHERE id = :articleId");
+        $stmt -> bindParam(':articleId',$articleId,\PDO::PARAM_INT);
+        $stmt->execute();
     }
 
     public static function getPublicData(){
@@ -117,10 +141,9 @@ class ArticlesModel{
         $stmt->bindParam(':category_id', $data['category']);
         $stmt->bindParam(':author_id', $data['author']);
     
-        // Execute the statement
+
         $stmt->execute();
-    
-        // Return the last insert ID
+ 
         return $conn->lastInsertId();
     }
     

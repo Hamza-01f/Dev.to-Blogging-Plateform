@@ -16,6 +16,13 @@ public static function getData(){
     return $articles;
 }
 
+public static function incrementView($articleId){
+     ArticlesModel::incrementView($articleId);
+     $artilcedata = ArticlesModel::getDataOfArticle($articleId);
+     return $artilcedata;
+}
+
+
 public static function getAdmineArticle(){
 
     $articles = ArticlesModel::getAdmineArticle();
@@ -67,7 +74,6 @@ public static function updateArticle($id){
             'featured_image' => $_POST['featured_image'],
             'status' => $_POST['status'],
             'category' => $_POST['category'],
-            'author' => $_POST['author'],
             'tags' => isset($_POST['tags']) ? $_POST['tags'] : []
         ];
        }
@@ -94,9 +100,5 @@ public static function getSpecificData($id){
     $article = ArticlesModel::getSpecificData($id);
     return $article;
 }
-
-
-
-
 
 }

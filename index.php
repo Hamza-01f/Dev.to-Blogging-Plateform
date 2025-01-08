@@ -6,6 +6,7 @@ use App\Controllers\ArticleController;
 
 $articles = ArticleController::getPublicData();
 
+
 ?>
 
 <!DOCTYPE html>
@@ -18,37 +19,34 @@ $articles = ArticleController::getPublicData();
     <script src="https://kit.fontawesome.com/f01941449c.js" crossorigin="anonymous"></script>
     <title>Welcome to DivoBlog</title>
     <style>
-        /* Truncate the content to 3 lines */
+        
         .truncate-lines {
             display: -webkit-box;
-            -webkit-line-clamp: 3; /* Show only 3 lines */
+            -webkit-line-clamp: 3; 
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
-        /* Customizing card hover effect */
         .card:hover {
-            transform: translateY(-10px); /* Move the card up */
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Add a more dramatic shadow */
+            transform: translateY(-10px); 
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); 
             transition: all 0.3s ease;
         }
 
-        /* Enhancing the image */
         .card-image {
             transition: transform 0.3s ease;
         }
 
         .card:hover .card-image {
-            transform: scale(1.05); /* Slight zoom effect on hover */
+            transform: scale(1.05); 
         }
 
-        /* Customizing the button */
         .read-more-btn {
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
         .read-more-btn:hover {
-            background-color: #4b86b4; /* Darker blue on hover */
+            background-color: #4b86b4; 
             transform: scale(1.05);
         }
     </style>
@@ -88,29 +86,32 @@ $articles = ArticleController::getPublicData();
                         <div class="bg-blue-100">
                             <img 
                                 src="<?php echo htmlspecialchars($article['featured_image']) ?: 'https://via.placeholder.com/300'; ?>" 
-                                alt="<?php echo htmlspecialchars($article['title']); ?>" 
+                                alt="<?php echo htmlspecialchars((string)$article['title']); ?>" 
                                 class="w-full h-48 object-cover"
                             />
                         </div>
                         <div class="p-6">
-                            <div class="flex items-center gap-2 mb-3 ml-32">
-                                <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">
-                                    <?php echo htmlspecialchars($article['categorie_name']); ?>
-                                </span>
-                                <span class="text-gray-500 text-sm">
+                             <div class="flex items-center gap-2 mb-3 ml-32 capitalize">
+                                <!-- <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">
+                                    <!?php echo htmlspecialchars($article['categorie_name']); ?>
+                                </span>  -->
+                                <span class="px-3 py-1 bg-blue-200 text-black-700 rounded-full text-sm ml-10">
                                     By <?php echo htmlspecialchars($article['username']); ?>
                                 </span>
                             </div>
-                            <h3 class="text-2xl font-semibold text-gray-800 mb-2">
-                                <?php echo htmlspecialchars($article['title']); ?>
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-2 capitalize">
+                              <span class="px-3 py-1 bg-blue-100 text-black-600 rounded-full text-sm">
+                                 <?php echo htmlspecialchars($article['title']); ?>
+                              </span>
                             </h3>
-                            <p class="text-gray-600 mb-4 overflow-hidden line-clamp-3">
-                                <?php echo htmlspecialchars($article['content']); ?>
-                            </p>
-                            <div class="flex items-center justify-between">
-                                <a href="readarticle=<?php echo htmlspecialchars($article['id']); ?>" 
-                                class="text-indigo-600 hover:text-indigo-800 font-medium ml-40">
-                                    Read more
+                            <div class = "border-2 border-black rounded mb-2 font-mono">
+                                <p class="text-gray-600 mb-4 overflow-hidden line-clamp-3 font-mono">
+                                    <?php echo htmlspecialchars((string)$article['content']); ?>
+                                </p>
+                            </div>    
+                            <div class="bg-blue-500 rounded capitalize">
+                                <a href="readarticles.php?id=<?=  $article['article_id']; ?>" class="text-white hover:text-indigo-800 font-medium ml-8">
+                                    read more about this article
                                 </a>
                                 <!-- <div class="flex gap-2">
                                     <!?php foreach (explode(',', $article['tags']) as $tag): ?>

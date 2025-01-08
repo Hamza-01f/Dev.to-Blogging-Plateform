@@ -55,7 +55,6 @@ class auth {
     }
 
     public static function askedToAuthor($username,$email,$image_url,$user_id){
-        echo 'hello';
         authModel::askedToAuthor($username,$email,$image_url,$user_id);
     }
 }
