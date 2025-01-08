@@ -17,8 +17,13 @@ public static function getData(){
 }
 
 public static function getAdmineArticle(){
-    
+
     $articles = ArticlesModel::getAdmineArticle();
+    return $articles;
+}
+
+public static function getPublicData(){
+    $articles = ArticlesModel::getPublicData();
     return $articles;
 }
 

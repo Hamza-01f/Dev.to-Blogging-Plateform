@@ -15,11 +15,11 @@ class UsersController {
         if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['Register'])) {
             // Initialize the data array only when the form is submitted
             $data = [
-                'username' => $_POST['username'] ?? null,
-                'email' => $_POST['email'] ?? null,
-                'pass' => $_POST['password'] ?? null,
-                'bio' => $_POST['bio'] ?? null,
-                'profile_picture' => $_POST['photo'] ?? null,
+                'username' => $_POST['username'] ,
+                'email' => $_POST['email'] ,
+                'pass' => $_POST['password'] ,
+                'bio' => $_POST['bio'] ,
+                'profile_picture' => $_POST['photo'] ,
                 'role' => 'user',
             ];
 

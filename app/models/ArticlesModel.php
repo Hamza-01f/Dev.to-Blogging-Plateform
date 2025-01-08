@@ -39,6 +39,32 @@ class ArticlesModel{
         return $articles;
     }
 
+    public static function getPublicData(){
+        Database::getInstance();
+        $stmt = Database::getConnection()->prepare("
+            SELECT 
+                articles.id AS article_id, 
+                articles.title,
+                articles.slug,
+                articles.content,    
+                articles.featured_image,
+                articles.status,
+                users.username,
+                categories.categorie_name,
+                GROUP_CONCAT(tags.name_tag) AS tags
+            FROM articles 
+            JOIN users ON articles.author_id = users.id
+            JOIN categories ON articles.category_id = categories.id
+            LEFT JOIN article_tags ON articles.id = article_tags.article_id
+            LEFT JOIN tags ON article_tags.tag_id = tags.id
+            WHERE articles.status = 'published' 
+            GROUP BY articles.id
+        ");
+        $stmt->execute();
+        $articles = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $articles;
+    }
+
     public static function getAdmineArticle(){
         Database::getInstance();
         $stmt = Database::getConnection()->prepare("
