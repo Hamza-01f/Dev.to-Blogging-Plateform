@@ -1,7 +1,5 @@
 vendor
 .env
-/app/config
-.env
 .env-example
 composer.json
 composer.lock

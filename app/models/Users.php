@@ -8,7 +8,7 @@ class Users {
 
     private static $table = "users";
 
-    // Fetch users from the database
+
     public static function showUsers(){
         Database::getInstance();
         $stmt = Database::getConnection()->prepare("SELECT * FROM ".self::$table." WHERE role != 'admin' ");
@@ -16,7 +16,7 @@ class Users {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    // Add a new user to the database
+ 
     public static function AddUser($data){
         Database::getInstance();
         $stmt = Database::getConnection()->prepare("INSERT INTO users(username, email, pass, bio, profile_picture, role)
