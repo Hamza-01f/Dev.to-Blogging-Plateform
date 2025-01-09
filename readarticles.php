@@ -4,9 +4,8 @@ session_start();
 
 require_once __DIR__ . '/app/controllers/ArticlesController.php';
 
-$role = $_SESSION['user']['role'];
+$role = $_SESSION['user']['role'] ?? NULL;
 
-echo $role;
 use App\Controllers\ArticleController;
 
 $articleData = '';
@@ -14,6 +13,11 @@ if(isset($_GET['id'])){
    $articleId = $_GET['id'];
    $articleData = ArticleController::incrementView($articleId);
 
+}
+
+function calculateReadingTime($content){
+    $wordcount = str_word_count($content);
+    return $readingTime = $wordcount/100;
 }
 
 ?>
@@ -90,17 +94,25 @@ if(isset($_GET['id'])){
                     <i class="fas fa-arrow-left mr-2"></i>
                     Back
                 </a>
-
-            <?php else: ?>
-                    <a href="/app/view/AdmineDashboard/users/userpage.php" class="flex items-center px-4 py-2 bg-white text-indigo-600 rounded-lg hover:bg-gray-100 transition duration-300 shadow-md">
-                    <i class="fas fa-arrow-left mr-2"></i>
-                    Back
-                    </a>
-            <?php endif; ?>
-                    <a href="/app/view/AdmineDashboard/users/logout.php" class="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 shadow-md">
+                <a href="/app/view/AdmineDashboard/users/logout.php" class="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 shadow-md">
                     <i class="fas fa-sign-out-alt mr-2"></i>
                     Logout
+                </a>
+            <?php elseif($role == NULL): ?>
+                <a href="/index.php" class="flex items-center px-4 py-2 bg-white text-indigo-600 rounded-lg hover:bg-gray-100 transition duration-300 shadow-md">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Back
+                </a>
+            <?php else: ?>
+                    <a href="/app/view/AdmineDashboard/users/userpage.php" class="flex items-center px-4 py-2 bg-white text-indigo-600 rounded-lg hover:bg-gray-100 transition duration-300 shadow-md">
+                       <i class="fas fa-arrow-left mr-2"></i>
+                       Back
                     </a>
+                    <a href="/app/view/AdmineDashboard/users/logout.php" class="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 shadow-md">
+                       <i class="fas fa-sign-out-alt mr-2"></i>
+                      Logout
+                    </a>
+            <?php endif; ?>
             </div>
         </div>
     </nav>
@@ -124,7 +136,7 @@ if(isset($_GET['id'])){
                     </div>
                     <div class="flex items-center">
                         <i class="fas fa-clock mr-2"></i>
-                        <span>5 min read</span>
+                        <span><?php echo calculateReadingTime( htmlspecialchars($articleData['content'])); ?> Min</span>
                     </div>
                 </div>
             </header>
