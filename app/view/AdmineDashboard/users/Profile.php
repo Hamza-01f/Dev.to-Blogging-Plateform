@@ -1,4 +1,36 @@
-<?php session_start(); include('/var/www/html/app/controllers/authcontroller.php'); use App\controllers\auth; if ($_SERVER['REQUEST_METHOD'] == 'POST') { $username = $_POST['username']; $email = $_POST['email']; $bio = $_POST['bio']; $profile_picture = $_POST['profile_picture']; $user_id = $_SESSION['user']['id']; auth::updateProfile($user_id, $username, $email, $bio, $profile_picture); } $user_id = $_SESSION['user']['id']; $user = auth::display($user_id); ?>
+<?php
+
+session_start(); 
+
+
+if (!isset($_SESSION['user'])) {
+    header('Location: /app/view/AdmineDashboard/users/logIn.php');
+    exit();
+}
+
+include('/var/www/html/app/controllers/authcontroller.php'); 
+
+use App\controllers\auth; if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+
+{ $username = $_POST['username'];
+
+ $email = $_POST['email'];
+
+  $bio = $_POST['bio'];
+
+   $profile_picture = $_POST['profile_picture'];
+
+    $user_id = $_SESSION['user']['id'];
+
+     auth::updateProfile($user_id, $username, $email, $bio, $profile_picture);
+
+      } 
+
+      $user_id = $_SESSION['user']['id'];
+
+       $user = auth::display($user_id); 
+       
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

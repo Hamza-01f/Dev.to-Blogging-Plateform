@@ -1,4 +1,12 @@
 <?php 
+
+session_start();
+
+if (!isset($_SESSION['user'])) {
+    header('Location: /app/view/AdmineDashboard/users/logIn.php');
+    exit();
+}
+
  require_once __DIR__ . '/../../../controllers/CategoriesController.php';
 
 use App\Controllers\CategoriesController;

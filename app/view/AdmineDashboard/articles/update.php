@@ -1,5 +1,10 @@
 <?php
+session_start();
 
+if (!isset($_SESSION['user'])) {
+    header('Location: /app/view/AdmineDashboard/users/logIn.php');
+    exit();
+}
 require_once __DIR__ . '/../../../controllers/ArticlesController.php';
 require_once __DIR__ . '/../../../controllers/TagsController.php';
 require_once __DIR__ . '/../../../controllers/CategoriesController.php';

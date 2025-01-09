@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+
+if (!isset($_SESSION['user'])) {
+    header('Location: /app/view/AdmineDashboard/users/logIn.php');
+    exit();
+}
+
 $specificUser = $_SESSION['user']['id'];
 $userRole =  $_SESSION['user']['role'];
 

@@ -1,5 +1,11 @@
 <?php
 session_start();
+
+if (!isset($_SESSION['user'])) {
+    header('Location: /app/view/AdmineDashboard/users/logIn.php');
+    exit();
+}
+
 require_once __DIR__ . '/../../controllers/UsersController.php';
 use App\Controllers\UsersController;
 
@@ -51,9 +57,7 @@ if (isset($_POST['searchButton'])) {
                         <a href="/app/view/AdmineDashboard/users/Profile.php" class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition duration-300">Profile</a>
                         <a href="/app/view/AdmineDashboard/users/logout.php" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300">Log Out</a>
                     </div>
-                <?php else: ?>
-                    <a href="/login.php" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300">Log In</a>
-                <?php endif; ?>
+                  <?php endif; ?>
             </div>
         </div>
     </nav>

@@ -1,0 +1,5 @@
+RewriteEngine On
+
+RewriteBase /app/
+
+RewriteRule ^(.*)/$ $1.php [L]

@@ -9,7 +9,7 @@ if(isset($_POST["submit"]) &&  $_SERVER['REQUEST_METHOD'] == "POST")
 {
         $username = $_POST["username"];
         $password = $_POST["password"];
-        $errorMessage = auth::logIn($username,$password);     
+        auth::logIn($username,$password);     
 }
 
 
@@ -70,13 +70,10 @@ if(isset($_POST["submit"]) &&  $_SERVER['REQUEST_METHOD'] == "POST")
       
             <div class="text-center mb-8">
                 <h2 class="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent">
-                    Welcome Back!
+                    Welcome !
                 </h2>
                 <p class="mt-2 text-gray-600">Please sign in to continue</p>
             </div>
-            <? if($errorMessage === true):?>
-              <p>oops invalid password</p>
-            <? endif; ?>
 
             <form class="space-y-6" method="POST">
         

@@ -1,6 +1,13 @@
 <?php
 session_start();
 
+
+if (!isset($_SESSION['user'])) {
+    header('Location: /app/view/AdmineDashboard/users/logIn.php');
+    exit();
+}
+
+
 require_once __DIR__ . '/../../../controllers/ArticlesController.php';
 
 use App\Controllers\ArticleController;
