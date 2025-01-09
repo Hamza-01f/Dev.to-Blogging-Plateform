@@ -60,132 +60,129 @@
             </div>
 
         
-            <form method="POST" action="/router.php?action=addUser" class="space-y-6">
-            
-                <div class="relative">
-                    <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
-                            <i class="fas fa-user"></i>
-                        </span>
-                        <input 
-                            type="text"
-                            id="username"
-                            name="username"
-                            class="form-input block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl text-gray-700
-                                   focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500
-                                   transition-all duration-300"
-                            placeholder="Choose a username"
-                            required
-                        />
-                    </div>
-                </div>
+            <form method="POST" action="/router.php?action=addUser" class="form space-y-6" onsubmit="return validateForm(this)">
+    <div class="relative">
+        <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+        <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                <i class="fas fa-user"></i>
+            </span>
+            <input 
+                type="text"
+                id="username"
+                name="username"
+                class="form-input block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl text-gray-700
+                    focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500
+                    transition-all duration-300"
+                placeholder="Choose a username"
+            />
+        </div>
+        <p id="usernameError" class="text-sm text-red-600 mt-1"></p>
+    </div>
 
-               
-                <div class="relative">
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
-                            <i class="fas fa-envelope"></i>
-                        </span>
-                        <input 
-                            type="email"
-                            id="email"
-                            name="email"
-                            class="form-input block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl text-gray-700
-                                   focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500
-                                   transition-all duration-300"
-                            placeholder="Enter your email"
-                            required
-                        />
-                    </div>
-                </div>
+    <div class="relative">
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                <i class="fas fa-envelope"></i>
+            </span>
+            <input 
+                type="email"
+                id="email"
+                name="email"
+                class="form-input block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl text-gray-700
+                    focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500
+                    transition-all duration-300"
+                placeholder="Enter your email"
+            />
+        </div>
+        <p id="emailError" class="text-sm text-red-600 mt-1"></p>
+    </div>
 
-               
-                <div class="relative">
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
-                            <i class="fas fa-lock"></i>
-                        </span>
-                        <input 
-                            type="password"
-                            id="password"
-                            name="password"
-                            class="form-input block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl text-gray-700
-                                   focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500
-                                   transition-all duration-300"
-                            placeholder="Create a password"
-                            required
-                        />
-                        <button 
-                            type="button"
-                            onclick="togglePassword()"
-                            class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 cursor-pointer"
-                        >
-                            <i id="toggleIcon" class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
+    <div class="relative">
+        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+        <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                <i class="fas fa-lock"></i>
+            </span>
+            <input 
+                type="password"
+                id="password"
+                name="password"
+                class="form-input block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl text-gray-700
+                    focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500
+                    transition-all duration-300"
+                placeholder="Create a password"
+            />
+            <button 
+                type="button"
+                onclick="togglePassword()"
+                class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 cursor-pointer"
+            >
+                <i id="toggleIcon" class="fas fa-eye"></i>
+            </button>
+        </div>
+        <p id="passwordError" class="text-sm text-red-600 mt-1"></p>
+    </div>
 
-          
-                <div class="relative">
-                    <label for="bio" class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
-                    <div class="relative">
-                        <span class="absolute top-3 left-0 pl-3 flex items-center text-gray-500">
-                            <i class="fas fa-pen"></i>
-                        </span>
-                        <textarea
-                            id="bio"
-                            name="bio"
-                            rows="3"
-                            class="form-input block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl text-gray-700
-                                   focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500
-                                   transition-all duration-300"
-                            placeholder="Tell us about yourself..."
-                        ></textarea>
-                    </div>
-                </div>
+    <div class="relative">
+        <label for="bio" class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+        <div class="relative">
+            <span class="absolute top-3 left-0 pl-3 flex items-center text-gray-500">
+                <i class="fas fa-pen"></i>
+            </span>
+            <textarea
+                id="bio"
+                name="bio"
+                rows="3"
+                class="form-input block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl text-gray-700
+                    focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500
+                    transition-all duration-300"
+                placeholder="Tell us about yourself..."
+            ></textarea>
+        </div>
+        <p id="bioError" class="text-sm text-red-600 mt-1"></p>
+    </div>
 
-             
-                <div class="relative">
-                    <label for="profile-picture" class="block text-sm font-medium text-gray-700 mb-1">Profile Picture</label>
-                    <div class="flex items-center space-x-4">
-                        <div id="image-preview" class="h-16 w-16 rounded-full bg-gradient-to-r from-pink-400 to-orange-300 flex items-center justify-center shadow-lg transition-all duration-300">
-                            <span class="text-white"><i class="fas fa-camera text-xl"></i></span>
-                        </div>
-                        <div class="relative flex-1">
-                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
-                                <i class="fas fa-link"></i>
-                            </span>
-                            <input
-                                type="url"
-                                id="profile-picture"
-                                name="photo"
-                                placeholder="Enter image URL"
-                                class="form-input block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl text-gray-700
-                                       focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500
-                                       transition-all duration-300"
-                                oninput="previewImage(this)"
-                            />
-                        </div>
-                    </div>
-                </div>
+    <div class="relative">
+        <label for="profile-picture" class="block text-sm font-medium text-gray-700 mb-1">Profile Picture</label>
+        <div class="flex items-center space-x-4">
+            <div id="image-preview" class="h-16 w-16 rounded-full bg-gradient-to-r from-pink-400 to-orange-300 flex items-center justify-center shadow-lg transition-all duration-300">
+                <span class="text-white"><i class="fas fa-camera text-xl"></i></span>
+            </div>
+            <div class="relative flex-1">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                    <i class="fas fa-link"></i>
+                </span>
+                <input
+                    type="url"
+                    id="profile-picture"
+                    name="photo"
+                    placeholder="Enter image URL"
+                    class="form-input block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl text-gray-700
+                        focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500
+                        transition-all duration-300"
+                    oninput="previewImage(this)"
+                />
+            </div>
+        </div>
+        <p id="profilePictureError" class="text-sm text-red-600 mt-1"></p>
+    </div>
 
-                <input type="hidden" value="user" name="role" />
+    <input type="hidden" value="user" name="role" />
 
-             
-                <button 
-                    type="submit"
-                    name="Register"
-                    class="w-full py-3 px-4 rounded-xl text-white font-semibold
-                           bg-gradient-to-r from-pink-500 via-orange-400 to-red-500
-                           hover:opacity-90 transform transition-all duration-300 hover:scale-105
-                           focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
-                >
-                    Create Account
-                </button>
-            </form>
+    <button 
+        type="submit"
+        name="Register"
+        class="w-full py-3 px-4 rounded-xl text-white font-semibold
+               bg-gradient-to-r from-pink-500 via-orange-400 to-red-500
+               hover:opacity-90 transform transition-all duration-300 hover:scale-105
+               focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+    >
+        Create Account
+    </button>
+</form>
+
 
     
             <div class="mt-8 text-center">
@@ -202,7 +199,42 @@
         </div>
     </div>
 
-    <script>
+  <script>
+  const usernameRegex = /^\w{4,20}$/;  
+  const emailRegex = /^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/;  
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,20}$/; 
+  const urlRegex = /^https:\/\/.*\.(jpg|jpeg|png|gif)$/;
+ 
+
+   function validateForm(form) {
+    let isValid = true;
+
+    const errorMessages = form.querySelectorAll('.text-red-600');
+    errorMessages.forEach(error => error.textContent = '');
+
+    const inputs = form.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+        let errorMessageElement = document.getElementById(input.id + 'Error');
+        if (!input.value) {
+            errorMessageElement.textContent = 'This field is required';
+            isValid = false;
+        } else if (input.name === 'username' && !usernameRegex.test(input.value)) {
+            errorMessageElement.textContent = 'Username must be 4-20 characters and can include letters, numbers, and underscores.';
+            isValid = false;
+        } else if (input.name === 'email' && !emailRegex.test(input.value)) {
+            errorMessageElement.textContent = 'Please enter a valid email address.';
+            isValid = false;
+        } else if (input.name === 'password' && !passwordRegex.test(input.value)) {
+            errorMessageElement.textContent = 'Password must be 6-20 characters long, with at least one number, one lowercase letter, and one uppercase letter.';
+            isValid = false;
+        } else if (input.name === 'photo' && !urlRegex.test(input.value)) {
+            errorMessageElement.textContent = 'Please enter a valid image URL (PNG, JPG, JPEG, GIF only).';
+            isValid = false;
+        }
+    });
+
+    return isValid;
+   }
         function previewImage(input) {
             const preview = document.getElementById('image-preview');
             const fileURL = input.value;
@@ -217,7 +249,6 @@
                 preview.querySelector('span').style.display = 'block';
             }
         }
-
         function togglePassword() {
             const passwordInput = document.getElementById('password');
             const toggleIcon = document.getElementById('toggleIcon');
@@ -233,41 +264,6 @@
             }
         }
 
-        function validateForm() {
-    
-            const username = document.getElementById('username').value;
-            const usernameRegex = /^[a-zA-Z0-9]{3,15}$/;
-            if (!usernameRegex.test(username)) {
-                alert('Username must be 3-15 characters long and contain only letters and numbers.');
-                return false;
-            }
-
-  
-            const email = document.getElementById('email').value;
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert('Please enter a valid email address.');
-                return false;
-            }
-
-  
-            const password = document.getElementById('password').value;
-            const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-            if (!passwordRegex.test(password)) {
-                alert('Password must be 6-20 characters long and include at least one number, one lowercase letter, and one uppercase letter.');
-                return false;
-            }
-
-    
-            const profilePicture = document.getElementById('profile-picture').value;
-            const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
-            if (profilePicture && !urlRegex.test(profilePicture)) {
-                alert('Please enter a valid URL for the profile picture.');
-                return false;
-            }
-
-            return true;
-        }
-    </script>
+  </script>
 </body>
 </html>

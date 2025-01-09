@@ -43,12 +43,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addArticle'])) {
             border-radius: 0.375rem;
             border-color: #E5E7EB;
         }
+        .error-message {
+            color: red;
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 
 <body class="bg-gray-50">
     <div class="flex h-screen">
-        <!-- Sidebar -->
+       
         <div class="hidden md:flex md:flex-col w-72 bg-gradient-to-b from-indigo-700 to-indigo-900 text-white">
             <div class="flex items-center justify-center h-20 bg-indigo-800">
                 <span class="text-2xl font-bold tracking-wider">DIVO<span class="text-indigo-300">BLOG</span></span>
@@ -86,9 +90,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addArticle'])) {
             </div>
         </div>
 
-        <!-- Main Content -->
+       
         <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Top Navigation -->
+            
             <header class="bg-white shadow-sm">
                 <div class="flex items-center justify-between px-6 py-4">
                     <div class="flex items-center space-x-4">
@@ -116,76 +120,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addArticle'])) {
                 </div>
             </header>
 
-            <!-- Main Content Area -->
+          
             <main class="flex-1 overflow-y-auto bg-gray-50 p-6">
                 <div class="max-w-4xl mx-auto">
                     <div class="flex justify-between items-center mb-6">
                         <h1 class="text-2xl font-bold text-gray-900">Create New Article</h1>
                     </div>
 
-                    <!-- Article Form -->
+                
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                        <form method="POST" class="p-6 space-y-6">
-                            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                <div>
-                                    <label for="title" class="block text-sm font-medium text-gray-700">Article Title</label>
-                                    <input type="text" name="title" id="title" 
-                                           class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                           placeholder="Enter article title" required>
-                                </div>
-                                <div>
-                                    <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
-                                    <input type="text" name="slug" id="slug" 
-                                           class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                           placeholder="article-slug" required>
-                                </div>
-                            </div>
+                    <form id="articleForm" method="POST" class="p-6 space-y-6" onsubmit="return validateForm(this)">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div>
+            <label for="title" class="block text-sm font-medium text-gray-700">Article Title</label>
+            <input type="text" name="title" id="title"
+                   class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                   placeholder="Enter article title">
+            <p id="titleError" class="error-message text-sm text-red-600 mt-1"></p>
+        </div>
+        <div>
+            <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
+            <input type="text" name="slug" id="slug"
+                   class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                   placeholder="article-slug">
+            <p id="slugError" class="error-message text-sm text-red-600 mt-1"></p>
+        </div>
+    </div>
 
-                            <div>
-                                <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
-                                <textarea name="content" id="content" rows="6" 
-                                          class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                          placeholder="Write your article content here..." required></textarea>
-                            </div>
+    <div>
+        <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
+        <textarea name="content" id="content" rows="6"
+                  class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  placeholder="Write your article content here..."></textarea>
+        <p id="contentError" class="error-message text-sm text-red-600 mt-1"></p>
+    </div>
 
-                            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                <div>
-                                    <label for="featured_image" class="block text-sm font-medium text-gray-700">Featured Image URL</label>
-                                    <input type="text" name="featured_image" id="featured_image" 
-                                           class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                           placeholder="https://example.com/image.jpg">
-                                </div>
-                                <div>
-                                    <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-                                    <select name="category" id="category" 
-                                            class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                                        <?php foreach($categories as $category): ?>
-                                            <option value="<?php echo $category['id']?>"><?php echo $category['categorie_name'];?></option>
-                                        <?php endforeach;?>
-                                    </select>
-                                </div>
-                            </div>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div>
+            <label for="featured_image" class="block text-sm font-medium text-gray-700">Featured Image URL</label>
+            <input type="text" name="featured_image" id="featured_image"
+                   class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                   placeholder="https://example.com/image.jpg">
+            <p id="imageUrlError" class="error-message text-sm text-red-600 mt-1"></p>
+        </div>
+        <div>
+            <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+            <select name="category" id="category"
+                    class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                <?php foreach($categories as $category): ?>
+                    <option value="<?php echo $category['id']?>"><?php echo $category['categorie_name'];?></option>
+                <?php endforeach; ?>
+            </select>
+            <p id="categoryError" class="error-message text-sm text-red-600 mt-1"></p>
+        </div>
+    </div>
 
-                            <input type="hidden" name="author" value="<?php echo $specificUser ?>">
+    <input type="hidden" name="author" value="<?php echo $specificUser ?>">
 
-                            <div>
-                                <label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>
-                                <select id="tags" name="tags[]" multiple 
-                                        class="mt-1 block w-full">
-                                    <?php foreach($tags as $tag): ?>
-                                        <option value="<?php echo $tag['id']?>"><?php echo $tag['name_tag'];?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
+    <div>
+        <label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>
+        <select id="tags" name="tags[]" multiple
+                class="mt-1 block w-full">
+            <?php foreach($tags as $tag): ?>
+                <option value="<?php echo $tag['id']?>"><?php echo $tag['name_tag'];?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
 
-                            <div class="pt-4">
-                                <button type="submit" name="addArticle"
-                                        class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-200">
-                                    <i class="fas fa-plus-circle mr-2"></i>
-                                    Publish Article
-                                </button>
-                            </div>
-                        </form>
+    <div class="pt-4">
+        <button type="submit" name="addArticle"
+                class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-200">
+            <i class="fas fa-plus-circle mr-2"></i>
+            Publish Article
+        </button>
+    </div>
+</form>
                     </div>
                 </div>
             </main>
@@ -193,6 +202,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addArticle'])) {
     </div>
 
     <script>
+ 
+ const titleRegex = /^[a-zA-Z0-9\s-_]+$/; 
+const slugRegex = /^[a-z0-9-_]+$/; 
+const contentMaxLength = 800;          
+const urlRegex = /^https:\/\/.*\.(jpg|jpeg|png|gif)$/; 
+
+function validateForm(form) {
+    let isValid = true;
+
+    const errorMessages = form.querySelectorAll('.error-message');
+    errorMessages.forEach(error => error.innerText = '');
+
+    const title = form.querySelector('#title');
+    if (!title.value.match(titleRegex)) {
+        document.getElementById('titleError').innerText = "Title can only contain alphanumeric characters, spaces, hyphens, and underscores.";
+        isValid = false;
+    }
+
+    const slug = form.querySelector('#slug');
+    if (!slug.value.match(slugRegex)) {
+        document.getElementById('slugError').innerText = "Slug can only contain lowercase letters, numbers, hyphens, and underscores.";
+        isValid = false;
+    }
+
+    const content = form.querySelector('#content');
+    if (content.value.length > contentMaxLength) {
+        document.getElementById('contentError').innerText = `Content must not exceed ${contentMaxLength} characters.`;
+        isValid = false;
+    }
+
+    const category = form.querySelector('#category');
+    if (!category.value) {
+        document.getElementById('categoryError').innerText = "Please select a category.";
+        isValid = false;
+    }
+
+    const imageUrl = form.querySelector('#featured_image');
+    if (imageUrl.value && !imageUrl.value.match(urlRegex)) {
+        document.getElementById('imageUrlError').innerText = "Please enter a valid image URL.";
+        isValid = false;
+    }
+
+    return isValid;
+}
         new TomSelect("#tags", {
             maxItems: 10,
             create: false,

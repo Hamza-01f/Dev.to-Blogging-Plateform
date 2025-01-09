@@ -10,7 +10,6 @@ class auth {
 
     public static function logIn($username, $password) {
         $user = authModel::finduser($username, $password);
-        
         if(password_verify($password, $user[0]['pass'])) {
             if ($user[0]['role'] == 'user' && $user[0]['Banned'] == false) {
                 session_start();
@@ -28,10 +27,10 @@ class auth {
                 header('Location: /app/view/AdmineDashboard/articles/ManageArticles.php');
                 exit();
             } else { 
-                echo "Sorry! You have banned by the admin , So you Could not joit Website.";
+                echo 'Sorry you are Banned By Admin';
             }
         }else{
-         echo 'incorrect password';
+          echo 'invalid password or username';
         }
     }
 

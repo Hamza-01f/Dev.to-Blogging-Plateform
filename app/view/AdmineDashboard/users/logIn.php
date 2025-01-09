@@ -7,16 +7,9 @@ use App\controllers\auth;
 
 if(isset($_POST["submit"]) &&  $_SERVER['REQUEST_METHOD'] == "POST")
 {
-
-    if(empty($_POST["username"]) && empty($_POST["password"]))
-    {
-        echo "email or password is empty";
-    }
-    else{
         $username = $_POST["username"];
         $password = $_POST["password"];
-        auth::logIn($username,$password);
-    }
+        $errorMessage = auth::logIn($username,$password);     
 }
 
 
@@ -72,19 +65,22 @@ if(isset($_POST["submit"]) &&  $_SERVER['REQUEST_METHOD'] == "POST")
 
 <body class="font-poppins">
     <div class="min-h-screen animated-gradient flex items-center justify-center p-4">
-        <!-- Login Container -->
+    
         <div class="max-w-md w-full glass-effect rounded-2xl shadow-2xl p-8 floating">
-            <!-- Header -->
+      
             <div class="text-center mb-8">
                 <h2 class="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent">
                     Welcome Back!
                 </h2>
                 <p class="mt-2 text-gray-600">Please sign in to continue</p>
             </div>
+            <? if($errorMessage === true):?>
+              <p>oops invalid password</p>
+            <? endif; ?>
 
-            <!-- Form -->
             <form class="space-y-6" method="POST">
-                <!-- Username Field -->
+        
+            
                 <div class="relative">
                     <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
                     <div class="relative">
@@ -103,7 +99,7 @@ if(isset($_POST["submit"]) &&  $_SERVER['REQUEST_METHOD'] == "POST")
                     </div>
                 </div>
 
-                <!-- Password Field -->
+             
                 <div class="relative">
                     <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
                     <div class="relative">
@@ -129,7 +125,6 @@ if(isset($_POST["submit"]) &&  $_SERVER['REQUEST_METHOD'] == "POST")
                     </div>
                 </div>
 
-                <!-- Submit Button -->
                 <button
                     type="submit"
                     name="submit"
@@ -142,7 +137,7 @@ if(isset($_POST["submit"]) &&  $_SERVER['REQUEST_METHOD'] == "POST")
                 </button>
             </form>
 
-            <!-- Register Link -->
+          
             <div class="mt-8 text-center">
                 <a href="Register.php" 
                    class="text-purple-600 hover:text-purple-500 transition-colors duration-300 flex items-center justify-center gap-2">

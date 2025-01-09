@@ -34,7 +34,6 @@ if(isset($_POST['ask_to_be_author'])){
 
 <body class="bg-gray-50">
 
-    <!-- Navbar -->
     <header class="bg-gradient-to-r from-blue-500 to-indigo-600 p-4">
         <div class="container mx-auto flex justify-between items-center">
             <div class="text-white text-3xl font-bold uppercase">
@@ -47,7 +46,7 @@ if(isset($_POST['ask_to_be_author'])){
                     <a href="/app/view/AdmineDashboard/users/Profile.php" class="text-white py-2 px-4 bg-yellow-500 hover:bg-yellow-600 rounded-lg shadow-md transition duration-300">Profile</a>
                     <a href="logout.php" class="text-white py-2 px-4 bg-red-500 hover:bg-red-600 rounded-lg shadow-md transition duration-300">Log Out</a>
                 <?php else: ?>
-                    <!-- Display Register and Log In buttons if user is not logged in -->
+                    
                     <a href="/app/view/AdmineDashboard/users/Register.php" class="text-white py-2 px-4 bg-green-500 hover:bg-green-600 rounded-lg shadow-md transition duration-300">Register</a>
                     <a href="/app/view/AdmineDashboard/users/LogIn.php" class="text-white py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-lg shadow-md transition duration-300">Log In</a>
                 <?php endif; ?>
@@ -55,23 +54,23 @@ if(isset($_POST['ask_to_be_author'])){
         </div>
     </header>
 
-    <!-- Hero Section -->
+   
     <section class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-20">
         <div class="container mx-auto text-center">
             <h1 class="text-5xl font-extrabold mb-4">Welcome to DivoBlog</h1>
             <p class="text-xl mb-6">Explore the latest articles, news, and insights across various categories!</p>
             
             <?php if (isset($_SESSION['user'])): ?>
-                <!-- If user is logged in, provide a link to start reading -->
+               
                 <a href="#articles" class="inline-block py-3 px-6 bg-yellow-400 text-gray-800 rounded-full shadow-lg hover:bg-yellow-500 hover:shadow-xl transition duration-300">Start Reading</a>
             <?php else: ?>
-                <!-- If user is not logged in, prompt to log in -->
+              
                 <p class="mt-4 text-xl">Please log in to start reading articles.</p>
             <?php endif; ?>
         </div>
     </section>
 
-    <!-- Ask to be Author Section (Only Visible for Logged-in Users) -->
+ 
     <?php if (isset($_SESSION['user'])): ?>
         <section class="bg-white py-8" id="ask-author-section">
             <div class="container mx-auto text-center">
@@ -82,7 +81,7 @@ if(isset($_POST['ask_to_be_author'])){
         </section>
     <?php endif; ?>
 
-    <!-- Modal for Success Message -->
+  
     <div id="modal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center hidden">
         <div class="bg-white rounded-lg shadow-lg p-8 text-center">
             <h3 class="text-2xl font-semibold text-green-500">Request Sent Successfully!</h3>
@@ -93,7 +92,6 @@ if(isset($_POST['ask_to_be_author'])){
         </div>
     </div>
 
-    <!-- Articles Section -->
     <section id="articles" class="py-16 bg-white">
         <div class="container mx-auto text-center">
             <h2 class="text-4xl font-bold text-gray-900 mb-12">Latest Articles</h2>
@@ -158,17 +156,16 @@ if(isset($_POST['ask_to_be_author'])){
     </footer>
 
     <script>
-        // Function to show modal and hide the "Ask to be Author" section
+       
         function showModal() {
-            // Hide the ask-author section
+          
             document.getElementById("ask-author-section").style.display = "none";
-            // Show the success modal
+            
             document.getElementById("modal").classList.remove("hidden");
         }
 
-        // Function to close the modal
         function closeModal() {
-            // Hide the modal
+    
             document.getElementById("modal").classList.add("hidden");
         }
     </script>
