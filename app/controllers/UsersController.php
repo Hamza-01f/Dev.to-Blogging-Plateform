@@ -81,4 +81,8 @@ class UsersController {
     public static function TopAuthors(){
         return Users::TotalAuthors();
     }
+
+    public static function searchContent($query){
+        return Users::searchContent($query);
+    }
 }

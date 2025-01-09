@@ -57,17 +57,17 @@ if (isset($_GET['action']) && $_GET['action'] == 'draft' && isset($_GET['id'])) 
 
                      <?php if($userRole === 'admin'):?>
                     <a href="/app/view/AdmineDashboard/categories/category.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
-                        <i class="fas fa-th h-6 w-6 mr-2"></i> Categories
+                        <i class="fas fa-th h-6 w-6 mr-2"></i>Manage Categories
                     </a>
                     <a href="/app/view/AdmineDashboard/dashboard.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
-                                <i class="fas fa-users h-6 w-6 mr-2"></i> Users
+                                <i class="fas fa-users h-6 w-6 mr-2"></i>Manage Users
                             </a>
                     <a href="/app/view/AdmineDashboard/Tags/tag.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
-                        <i class="fas fa-tag h-6 w-6 mr-2"></i> Tags
+                        <i class="fas fa-tag h-6 w-6 mr-2"></i>Manage Tags
                     </a>
                     <?php else: ?>
                     <a href="article.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
-                        <i class="fas fa-newspaper h-6 w-6 mr-2"></i> Add Articles
+                        <i class="fas fa-newspaper h-6 w-6 mr-2"></i> Add Article
                     </a>
                     <?php endif; ?>
                 </nav>
@@ -184,22 +184,22 @@ if (isset($_GET['action']) && $_GET['action'] == 'draft' && isset($_GET['id'])) 
                         </div>
 
                         <!-- Article Info Section -->
-                        <div class="flex-1">                          
-                            <h2 class="text-3xl font-bold text-gray-800 hover:text-indigo-600 transition-all duration-300">
-                                <?= htmlspecialchars($AdmineArticle['title']) ?>
-                            </h2>
-                            <p class="mt-2 text-sm text-gray-600">
-                                <span class="font-medium text-indigo-500">Category:</span> 
-                                <span class="font-semibold text-indigo-600"><?= htmlspecialchars($AdmineArticle['categorie_name']) ?></span>
-                            </p>
-                            <p class="mt-2 text-sm text-gray-600">
-                                <span class="font-medium text-indigo-500">Author:</span> 
-                                <span class="font-semibold text-indigo-600"><?= htmlspecialchars($AdmineArticle['username']) ?></span>
-                            </p>
-                            <span class="font-medium text-indigo-500">content:</span> 
-                            <p class="mt-4 text-gray-700 leading-relaxed text-lg">
-                                <?= nl2br(htmlspecialchars($AdmineArticle['content'])) ?>
-                            </p>
+                        <div class="flex-1 p-6 bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+    <!-- Title -->
+    <h2 class="text-4xl font-extrabold text-gray-900 hover:text-indigo-600 transition-all duration-300 mb-4">
+        <?= htmlspecialchars($AdmineArticle['title']) ?>
+    </h2>
+
+    <!-- Category -->
+    <p class="mt-2 text-sm text-gray-600">
+        <span class="font-medium text-indigo-500">Category:</span> 
+        <span class="font-semibold text-indigo-700"><?= htmlspecialchars($AdmineArticle['categorie_name']) ?></span>
+    </p>
+
+    <!-- Content -->
+    <p class="mt-4 text-gray-700 leading-relaxed text-lg font-sans line-clamp-3">
+        <?= nl2br(htmlspecialchars($AdmineArticle['content'])) ?>
+    </p>
 
 
                             <div class="mt-6 flex space-x-6 items-center ">

@@ -155,4 +155,24 @@ class Users {
     return $topAuthors;
 }
 
+public static function searchContent($query)
+{
+    $conn = Database::getConnection();
+
+    $sql = "
+        (SELECT 'article' AS type, id, title AS name, slug FROM articles WHERE title LIKE :query)
+        UNION 
+        (SELECT 'category' AS type, id, categorie_name AS name, NULL AS slug FROM categories WHERE categorie_name LIKE :query)
+        UNION 
+        (SELECT 'tag' AS type, id, name_tag AS name, NULL AS slug FROM tags WHERE name_tag LIKE :query)
+    ";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':query', '%' . $query . '%');  
+    $stmt->execute();
+
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+
+
 }

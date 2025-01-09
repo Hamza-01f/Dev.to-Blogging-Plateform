@@ -11,6 +11,12 @@ $role = $_SESSION['user']['role'];
 $articlesByCategory = UsersController::countArticlesByCategory();
 $popularTags = UsersController::countPopularTags();
 $topAuthors = UsersController::TopAuthors();
+
+if (isset($_POST['searchButton'])) {
+    
+    $query = $_POST['searchQuery'];  
+    $results = UsersController::searchContent($query);
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,12 +30,18 @@ $topAuthors = UsersController::TopAuthors();
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js for Graphs -->
 </head>
 <body class="bg-gradient-to-r from-blue-100 to-indigo-200">
-  
-    <div class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-4 shadow-lg">
+<nav class="bg-indigo-900 text-white p-4 shadow-md fixed w-full z-10 top-0 left-0">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="text-2xl font-extrabold">
                 <h1>DevBlog Admin</h1>
             </div>
+
+            <!-- Search Form in Navbar -->
+            <form method="POST" action="AdmineDashboard.php" class="flex items-center space-x-4">
+                <input type="text" id="searchQuery" name="searchQuery" class="w-full p-3 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Search categories, tags, or articles..." value="<?php echo isset($_POST['searchQuery']) ? htmlspecialchars($_POST['searchQuery']) : ''; ?>" />
+                <button type="submit" name="searchButton" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Search</button>
+            </form>
+
             <div class="flex items-center space-x-6">
                 <?php if (isset($_SESSION['user'])): ?>
                     <div class="text-sm">
@@ -44,7 +56,14 @@ $topAuthors = UsersController::TopAuthors();
                 <?php endif; ?>
             </div>
         </div>
-    </div>
+    </nav>
+  <!-- Search Bar and Button -->
+   <form method="POST" action="AdmineDashboard.php">
+        <div class="search-container mt-8 flex justify-between items-center">
+            <input type="text" id="searchQuery" name="searchQuery" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Search categories, tags, or articles..." value="<?php echo isset($_POST['searchQuery']) ? htmlspecialchars($_POST['searchQuery']) : ''; ?>" />
+            <button type="submit" name="searchButton" class="ml-4 px-4 py-2 bg-blue-500 text-white rounded-md">Search</button>
+        </div>
+    </form>
 
     <!-- Sidebar -->
     <div class="flex h-screen">
@@ -69,6 +88,24 @@ $topAuthors = UsersController::TopAuthors();
                 </a>
             </nav>
         </div>
+
+        <div class="flex-1 bg-white p-8 overflow-y-auto">
+            <!-- Search Results Section -->
+            <div id="searchResults" class="mt-6 space-y-4">
+                <?php if (isset($results) && !empty($results)): ?>
+                    <?php foreach ($results as $result): ?>
+                        <div class="search-result p-4 border border-gray-300 rounded-md mb-4">
+                            <h3 class="font-semibold"><?php echo $result['name']; ?></h3>
+                            <p>Type: <?php echo ucfirst($result['type']); ?></p>
+                            <?php if ($result['slug']): ?>
+                                <a href="/path/to/<?php echo $result['type']; ?>/<?php echo $result['slug']; ?>" class="text-blue-500">View</a>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                <?php elseif (isset($results)): ?>
+                    <p>No results found.</p>
+                <?php endif; ?>
+            </div>
 
         <!-- Main Content -->
         <div class="flex-1 bg-white p-8 overflow-y-auto">
@@ -211,3 +248,4 @@ $topAuthors = UsersController::TopAuthors();
     </div>
 </body>
 </html>
+

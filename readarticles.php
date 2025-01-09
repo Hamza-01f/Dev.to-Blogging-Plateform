@@ -6,6 +6,7 @@ require_once __DIR__ . '/app/controllers/ArticlesController.php';
 
 $role = $_SESSION['user']['role'];
 
+echo $role;
 use App\Controllers\ArticleController;
 
 $articleData = '';
