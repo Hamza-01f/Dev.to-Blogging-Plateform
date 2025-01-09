@@ -10,25 +10,43 @@ if (!isset($_SESSION['user'])) {
 
 include('/var/www/html/app/controllers/authcontroller.php'); 
 
-use App\controllers\auth; if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+use App\controllers\auth; 
 
-{ $username = $_POST['username'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') { 
 
- $email = $_POST['email'];
+    $username = htmlspecialchars(trim($_POST['username']), ENT_QUOTES, 'UTF-8');
+    if (empty($username) || strlen($username) > 50) {
+        echo "Invalid username. It should not be empty and should be less than 50 characters.";
+        exit;
+    }
 
-  $bio = $_POST['bio'];
+    $email = htmlspecialchars(trim($_POST['email']), ENT_QUOTES, 'UTF-8');
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "Invalid email address.";
+        exit;
+    }
 
-   $profile_picture = $_POST['profile_picture'];
+    $bio = htmlspecialchars(trim($_POST['bio']), ENT_QUOTES, 'UTF-8');
+    if (strlen($bio) > 500) {
+        echo "Bio is too long. It should not exceed 500 characters.";
+        exit;
+    }
+
+    $profile_picture = htmlspecialchars(trim($_POST['profile_picture']), ENT_QUOTES, 'UTF-8');
+    if (!filter_var($profile_picture, FILTER_VALIDATE_URL)) {
+        echo "Invalid profile picture URL.";
+        exit;
+    }
 
     $user_id = $_SESSION['user']['id'];
 
-     auth::updateProfile($user_id, $username, $email, $bio, $profile_picture);
+    auth::updateProfile($user_id, $username, $email, $bio, $profile_picture);  
 
-      } 
+}
 
-      $user_id = $_SESSION['user']['id'];
+$user_id = $_SESSION['user']['id'];
 
-       $user = auth::display($user_id); 
+$user = auth::display($user_id); 
        
 ?>
 <!DOCTYPE html>

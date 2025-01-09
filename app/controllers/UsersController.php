@@ -11,27 +11,51 @@ class UsersController {
         return $UsersModel;
     }
 
-    public static function addUser(){
-        if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['Register'])) {
-            // Initialize the data array only when the form is submitted
+    public static function addUser() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
+    
+            $username = htmlspecialchars(trim($_POST['username']), ENT_QUOTES, 'UTF-8');
+            $email = htmlspecialchars(trim($_POST['email']), ENT_QUOTES, 'UTF-8');
+            $password = htmlspecialchars(trim($_POST['password']), ENT_QUOTES, 'UTF-8');
+            $bio = htmlspecialchars(trim($_POST['bio']), ENT_QUOTES, 'UTF-8');
+            $profile_picture = htmlspecialchars(trim($_POST['photo']), ENT_QUOTES, 'UTF-8');
+            
+ 
             $data = [
-                'username' => $_POST['username'] ,
-                'email' => $_POST['email'] ,
-                'pass' => $_POST['password'] ,
-                'bio' => $_POST['bio'] ,
-                'profile_picture' => $_POST['photo'] ,
-                'role' => 'user',
+                'username' => $username,
+                'email' => $email,
+                'pass' => $password, 
+                'bio' => $bio,
+                'profile_picture' => $profile_picture,
+                'role' => 'user', 
             ];
-
-            // Validate that the required fields are not empty
-            if (empty($data['username']) || empty($data['email']) || empty($data['pass'])) {
-                echo "Please fill in all required fields.";
-                return;
-            }
-
-            Users::AddUser($data);
+    
+            UserModel::addUser($data);
+    
         }
     }
+
+    // public static function addUser(){
+    //     if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['Register'])) {
+            
+    //         $data = [
+    //             'username' => $_POST['username'] ,
+    //             'email' => $_POST['email'] ,
+    //             'pass' => $_POST['password'] ,
+    //             'bio' => $_POST['bio'] ,
+    //             'profile_picture' => $_POST['photo'] ,
+    //             'role' => 'user',
+    //         ];
+
+       
+    //         if (empty($data['username']) || empty($data['email']) || empty($data['pass'])) {
+    //             echo "Please fill in all required fields.";
+    //             return;
+    //         }
+
+    //         Users::AddUser($data);
+    //     }
+    // }
 
     public static function getUsersAskedToBeAuthors(){
         $askedusers = Users::getUsersAskedToBeAuthors();

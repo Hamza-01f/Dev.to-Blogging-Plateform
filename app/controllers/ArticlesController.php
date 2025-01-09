@@ -44,16 +44,23 @@ public static function draft($id){
 
 public static function addArticle( $id ){
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addArticle'])) {
-       
+
+        $title = htmlspecialchars(trim($_POST['title']));
+        $slug = htmlspecialchars(trim($_POST['slug']));
+        $content = htmlspecialchars(trim($_POST['content']));
+        $featured_image = htmlspecialchars(trim($_POST['featured_image']));
+        $category = htmlspecialchars(trim($_POST['category']));
+        $tags = isset($_POST['tags']) ? $_POST['tags'] : [];
+
         $data = [
-            'title' => $_POST['title'],
-            'slug' => $_POST['slug'],
-            'content' => $_POST['content'],       
-            'featured_image' => $_POST['featured_image'],
+            'title' => $title,
+            'slug' => $slug,
+            'content' => $content,       
+            'featured_image' => $featured_image,
             'status' => 'draft',
-            'category' => $_POST['category'],
+            'category' => $category,
             'author' =>  $id ,
-            'tags' => isset($_POST['tags']) ? $_POST['tags'] : []
+            'tags' => $tags
         ];
     
     }
@@ -67,13 +74,22 @@ public static function addArticle( $id ){
 
 public static function updateArticle($id){
        if(isset($_POST['updateArticle']) && $_SERVER['REQUEST_METHOD'] === "POST"){
+
+        $title = htmlspecialchars(trim($_POST['title']));
+        $slug = htmlspecialchars(trim($_POST['slug']));
+        $content = htmlspecialchars(trim($_POST['content']));
+        $featured_image = htmlspecialchars(trim($_POST['featured_image']));
+        $category = htmlspecialchars(trim($_POST['category']));
+        $tags = isset($_POST['tags']) ? $_POST['tags'] : [];
+
+
         $data = [
-            'title' => $_POST['title'],
-            'slug' => $_POST['slug'],
-            'content' => $_POST['content'],
-            'featured_image' => $_POST['featured_image'],
-            'category' => $_POST['category'],
-            'tags' => isset($_POST['tags']) ? $_POST['tags'] : []
+            'title' => $title,
+            'slug' => $slug,
+            'content' => $content,
+            'featured_image' => $featured_image,
+            'category' => $category,
+            'tags' => $tags
         ];
        }
 

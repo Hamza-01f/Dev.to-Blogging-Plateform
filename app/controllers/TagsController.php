@@ -48,9 +48,9 @@ class TagsController{
 
     public static function update($id, $newTag) {
         $result = Tags::updateTag($id, $newTag);
-            // Redirect to the tags list page after successful update
+           
             header("Location: tag.php");
-            exit; // Make sure to exit after header redirect
+            exit; 
     }
 
 
