@@ -80,7 +80,7 @@ if (isset($_POST['updateArticle'])  && $_SERVER["REQUEST_METHOD"] == "POST") {
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
-                    <input class="ml-4 w-full border rounded-md px-4 py-2" type="text" placeholder="Search" />
+   
                 </div>
             </header>
 
@@ -120,15 +120,6 @@ if (isset($_POST['updateArticle'])  && $_SERVER["REQUEST_METHOD"] == "POST") {
                                 class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
 
-                        <!-- Status -->
-                        <div>
-                            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                            <select name="status" id="status" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <option value="draft" <?php echo isset($article[0]['status']) && $article[0]['status'] == 'draft' ? 'selected' : ''; ?>>Draft</option>
-                                <option value="published" <?php echo isset($article[0]['status']) && $article[0]['status'] == 'published' ? 'selected' : ''; ?>>Published</option>
-                            </select>
-                        </div>
-
                         <!-- Category -->
                         <div>
                             <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
@@ -141,17 +132,6 @@ if (isset($_POST['updateArticle'])  && $_SERVER["REQUEST_METHOD"] == "POST") {
                             </select>
                         </div>
 
-                        <!-- Author -->
-                        <div>
-                            <label for="author" class="block text-sm font-medium text-gray-700">Author</label>
-                            <select name="author" id="author" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <?php foreach ($rows as $author): ?>
-                                    <option value="<?php echo $author['id'] ?>" <?php echo isset($article[0]['author_id']) && $article[0]['author_id'] == $author['id'] ? 'selected' : ''; ?>>
-                                        <?php echo htmlspecialchars($author['username']); ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
 
                         <!-- Tags -->
                         <div>

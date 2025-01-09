@@ -100,6 +100,7 @@ class ArticlesModel{
                 articles.featured_image,
                 articles.status,
                 users.username,
+                articles.views,
                 categories.categorie_name,
                 GROUP_CONCAT(tags.name_tag) AS tags
             FROM articles 
@@ -191,12 +192,8 @@ class ArticlesModel{
                 title = :title, 
                 slug = :slug, 
                 content = :content, 
-             
-              
-                featured_image = :featured_image, 
-                status = :status, 
-                category_id = :category_id, 
-                author_id = :author_id
+                featured_image = :featured_image,  
+                category_id = :category_id
             WHERE id = :id
         ");
     
@@ -204,9 +201,7 @@ class ArticlesModel{
         $stmt->bindParam(':slug', $data['slug']);
         $stmt->bindParam(':content', $data['content']);     
         $stmt->bindParam(':featured_image', $data['featured_image']);
-        $stmt->bindParam(':status', $data['status']);
         $stmt->bindParam(':category_id', $data['category']);
-        $stmt->bindParam(':author_id', $data['author']);
         $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
  
         $stmt->execute();

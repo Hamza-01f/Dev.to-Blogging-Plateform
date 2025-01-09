@@ -2,11 +2,12 @@
 session_start();
 
 $specificUser = $_SESSION['user']['id'];
-$userRole = $specificUser = $_SESSION['user']['role'];
+$userRole =  $_SESSION['user']['role'];
 
 require_once __DIR__ . '/../../../controllers/CategoriesController.php';
 require_once __DIR__ . '/../../../controllers/UsersController.php';
 require_once __DIR__ . '/../../../controllers/TagsController.php';
+require_once __DIR__ . '/../../../controllers/ArticlesController.php';
 
 use App\Controllers\ArticleController;
 use App\Controllers\TagsController;
@@ -17,6 +18,11 @@ use App\Controllers\UsersController;
 $tags = TagsController::show();
 $categories = CategoriesController::show();
 $authors = UsersController::show();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addArticle'])) {
+   
+    ArticleController::addArticle($specificUser );
+}
 
 ?>
 
@@ -100,7 +106,7 @@ $authors = UsersController::show();
 
                 <!-- Article Form -->
                 <div class="bg-white shadow-lg rounded-lg p-6 mt-6 overflow-auto max-h-[calc(100vh-200px)]">
-                    <form method="POST" action="/router.php?action=addArticle" class="space-y-6">
+                    <form method="POST"  class="space-y-6">
                         <div>
                             <label for="title" class="block text-sm font-medium text-gray-700">Article Title</label>
                             <input type="text" name="title" id="title" placeholder="Enter article title"
@@ -133,12 +139,12 @@ $authors = UsersController::show();
                             </select>
                         </div>
                         <div>
-                            <label for="author" class="block text-sm font-medium text-gray-700">Author</label> 
+                            <!-- <label for="author" class="block text-sm font-medium text-gray-700">Author</label> 
                               <select name="author" id="author" class="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <? foreach($authors as $author):?>
-                                <option value="<!-? echo $author['id']?>"><? echo $author['username'];?></option>
-                                <?php endforeach; ?>
-                            </select>
+                                <!? foreach($authors as $author):?>
+                                <option value="<!-? echo $author['id']?>"><!? echo $author['username'];?></option>
+                                <!?php endforeach; ?>
+                            </select> -->
                             <input type="text" name="author" id="author" class="hidden" value="<?php echo $specificUser ?>"></input>
                         </div>
                         <div>

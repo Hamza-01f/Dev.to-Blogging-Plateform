@@ -80,4 +80,79 @@ class Users {
         return $stmt->fetchColumn(); 
     }
 
+    
+    public static function countUsers() {
+        Database::getInstance();
+        $pdo = Database::getConnection();
+        $stmt = $pdo->query("SELECT COUNT(*) AS total FROM users");
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
+
+    public static function countArticles() {
+        Database::getInstance();
+        $pdo = Database::getConnection();
+        $stmt = $pdo->query("SELECT COUNT(*) AS total FROM articles");
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
+
+    public static function countCategories() {
+        Database::getInstance();
+        $pdo = Database::getConnection();
+        $stmt = $pdo->query("SELECT COUNT(*) AS total FROM categories");
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
+
+    public static function countTags() {
+        Database::getInstance();
+        $pdo = Database::getConnection();
+        $stmt = $pdo->query("SELECT COUNT(*) AS total FROM tags");
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
+
+    public static function countArticlesByCategory() {
+        Database::getInstance();
+        $pdo = Database::getConnection();
+        $stmt = $pdo->query("SELECT c.categorie_name, COUNT(a.id) AS total_articles
+                             FROM categories c
+                             LEFT JOIN articles a ON a.category_id = c.id
+                             GROUP BY c.categorie_name");
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public static function countPopularTags() {
+        Database::getInstance();
+        $pdo = Database::getConnection();
+        $stmt = $pdo->query("SELECT t.name_tag, COUNT(at.article_id) AS total_articles
+                             FROM tags t
+                             LEFT JOIN article_tags at ON at.tag_id = t.id
+                             GROUP BY t.name_tag
+                             ORDER BY total_articles DESC
+                             LIMIT 5");
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public static function TotalAuthors(){
+  
+    $pdo = Database::getConnection(); 
+
+
+    $sql = "SELECT u.username AS author_name, COUNT(a.id) AS article_count
+            FROM users u
+            LEFT JOIN articles a ON u.id = a.author_id
+            GROUP BY u.id
+            ORDER BY article_count DESC
+            LIMIT 3";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+
+    $topAuthors = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+    return $topAuthors;
+}
+
 }

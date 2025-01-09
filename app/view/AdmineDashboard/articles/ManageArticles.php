@@ -65,10 +65,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'draft' && isset($_GET['id'])) 
                     <a href="/app/view/AdmineDashboard/Tags/tag.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
                         <i class="fas fa-tag h-6 w-6 mr-2"></i> Tags
                     </a>
-                    <?php endif; ?>
+                    <?php else: ?>
                     <a href="article.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
                         <i class="fas fa-newspaper h-6 w-6 mr-2"></i> Add Articles
                     </a>
+                    <?php endif; ?>
                 </nav>
             </div>
         </div>
@@ -96,7 +97,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'draft' && isset($_GET['id'])) 
             </header>
 
             <main class="flex-1 p-6 space-y-6 overflow-y-auto">
-                <div class="text-3xl font-bold text-gray-900 mb-6">Article Details</div>
+                <div class="text-3xl font-bold text-gray-900 mb-6">Articles Listing</div>
                 <?php if($userRole === 'author'):?>
                 <?php foreach ($articles as $article): ?>
                 <!-- Article Details Card -->
@@ -108,17 +109,24 @@ if (isset($_GET['action']) && $_GET['action'] == 'draft' && isset($_GET['id'])) 
                         </div>
 
                         <!-- Article Info Section -->
-                        <div class="flex-1">                          
-                            <h2 class="text-3xl font-bold text-gray-800 hover:text-indigo-600 transition-all duration-300">
-                                <?= htmlspecialchars($article['title']) ?>
-                            </h2>
-                            <p class="mt-2 text-sm text-gray-600">
-                                <span class="font-medium text-indigo-500">Category:</span> 
-                                <span class="font-semibold text-indigo-600"><?= htmlspecialchars($article['categorie_name']) ?></span>
-                            </p>
-                            <p class="mt-4 text-gray-700 leading-relaxed text-lg">
-                                <?= nl2br(htmlspecialchars($article['content'])) ?>
-                            </p>
+                        <div class="flex-1 p-6 bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+    <!-- Title -->
+    <h2 class="text-4xl font-extrabold text-gray-900 hover:text-indigo-600 transition-all duration-300 mb-4">
+        <?= htmlspecialchars($article['title']) ?>
+    </h2>
+
+    <!-- Category -->
+    <p class="mt-2 text-sm text-gray-600">
+        <span class="font-medium text-indigo-500">Category:</span> 
+        <span class="font-semibold text-indigo-700"><?= htmlspecialchars($article['categorie_name']) ?></span>
+    </p>
+
+    <!-- Content -->
+    <p class="mt-4 text-gray-700 leading-relaxed text-lg font-sans line-clamp-3">
+        <?= nl2br(htmlspecialchars($article['content'])) ?>
+    </p>
+
+
 
 
                             <div class="mt-6 flex space-x-6 items-center ">
@@ -254,13 +262,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'draft' && isset($_GET['id'])) 
     </div>
 
 </body>
-
-<div class="flex items-center space-x-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4v4H8V4H4v16h4v-4h8v4h4V4h-4z" />
-                                        </svg>
-                                        <p class="text-gray-600 text-lg"><?= $article['views'] ?> views</p>
-                                    </div>
 
 </html>
 

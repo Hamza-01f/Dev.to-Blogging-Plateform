@@ -53,4 +53,32 @@ class UsersController {
             Users::banUser($id); 
         }
     }
+
+    public static function countUsers() {
+        return Users::countUsers();
+    }
+
+    public static function countArticles() {
+        return Users::countArticles();
+    }
+
+    public static function countCategories() {
+        return Users::countCategories();
+    }
+
+    public static function countTags() {
+        return Users::countTags();
+    }
+
+    public static function countArticlesByCategory() {
+        return Users::countArticlesByCategory();
+    }
+
+    public static function countPopularTags() {
+        return Users::countPopularTags();
+    }
+
+    public static function TopAuthors(){
+        return Users::TotalAuthors();
+    }
 }

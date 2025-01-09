@@ -42,7 +42,7 @@ public static function draft($id){
     ArticlesModel::draft($id);
 }
 
-public static function addArticle(){
+public static function addArticle( $id ){
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addArticle'])) {
        
         $data = [
@@ -52,7 +52,7 @@ public static function addArticle(){
             'featured_image' => $_POST['featured_image'],
             'status' => 'draft',
             'category' => $_POST['category'],
-            'author' => $_POST['author'],
+            'author' =>  $id ,
             'tags' => isset($_POST['tags']) ? $_POST['tags'] : []
         ];
     
@@ -72,7 +72,6 @@ public static function updateArticle($id){
             'slug' => $_POST['slug'],
             'content' => $_POST['content'],
             'featured_image' => $_POST['featured_image'],
-            'status' => $_POST['status'],
             'category' => $_POST['category'],
             'tags' => isset($_POST['tags']) ? $_POST['tags'] : []
         ];
